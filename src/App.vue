@@ -202,7 +202,6 @@
     // Example: Generate an array with 5 appointments
     return generateAppointmentsArray(count);
   };
-  const usersList = [];
   const rolesList = [
     {
       id: '1',
@@ -236,9 +235,8 @@
 
   const users = generateUsersLists();
 
-  usersList.push(...users);
-  usersStore.setUsers([]);
-  // appointmentsStore.set(generateAppointmentsList(10));
+  usersStore.setUsers(users);
+  appointmentsStore.set(generateAppointmentsList(10));
 </script>
 
 <template>
