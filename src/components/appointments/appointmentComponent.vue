@@ -1,0 +1,223 @@
+<script setup>
+  import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+  import { createPopper } from '@popperjs/core';
+  import { vOnClickOutside } from '@vueuse/components';
+  import { useUsersStore } from '@/stores/users.js';
+  import { useRouter } from 'vue-router';
+  import { useToast } from 'vue-toastification';
+
+  const props = defineProps({
+    appointment: { type: Object, required: true },
+  });
+
+  const emit = defineEmits(['edit']);
+
+  const dayjs = inject('dayJS');
+
+  const toast = useToast();
+  const usersStore = useUsersStore();
+  const showPopover = ref(false);
+  const router = useRouter();
+
+  let popcorn;
+  let tooltip;
+  let popperInstance;
+
+  onMounted(() => {
+    popcorn = document.getElementById(
+      `appointment${props.appointment.id}`,
+    );
+    tooltip = document.getElementById(
+      `tooltip${props.appointment.id}`,
+    );
+
+    popperInstance = createPopper(popcorn, tooltip, {
+      placement: 'right-start',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
+    });
+  });
+
+  onUnmounted(() => {
+    popperInstance.destroy();
+  });
+
+  const startTime = computed(() => {
+    return dayjs(props.appointment.date).format('HH:mm');
+  });
+  const endTime = computed(() => {
+    return dayjs(props.appointment.date)
+      .add(props.appointment.duration, 'minutes')
+      .format('HH:mm');
+  });
+
+  const createdBy = computed(() => {
+    let user;
+
+    try {
+      user = usersStore.getUserById(props.appointment.createdBy);
+    } catch (error) {
+      user = null;
+    }
+
+    return user;
+  });
+  const createdByName = computed(() => {
+    let name = 'User not found';
+    if (createdBy.value) {
+      name = `${createdBy.value.details.firstName} ${createdBy.value.details.lastName}`;
+    }
+
+    return name;
+  });
+
+  const assignedTo = computed(() => {
+    let user;
+
+    try {
+      user = usersStore.getUserById(props.appointment.assignedTo);
+    } catch (error) {
+      user = null;
+    }
+
+    return user;
+  });
+  const assignedToName = computed(() => {
+    let name = 'User not found';
+    if (assignedTo.value) {
+      name = `${assignedTo.value.details.firstName} ${assignedTo.value.details.lastName}`;
+    }
+
+    return name;
+  });
+
+  const client = computed(() => {
+    let user;
+
+    try {
+      user = usersStore.getUserById(props.appointment.clientId);
+    } catch (error) {
+      user = null;
+    }
+
+    return user;
+  });
+  const clientName = computed(() => {
+    let name = 'User not found';
+    if (client.value) {
+      name = `${client.value.details.firstName} ${client.value.details.lastName}`;
+    }
+
+    return name;
+  });
+  const handleUserClick = (id) => {
+    if (!id) {
+      toast.error('User not found');
+      return;
+    }
+    router.push({ name: 'user', params: { id } });
+  };
+  const togglePopover = () => {
+    showPopover.value = !showPopover.value;
+
+    if (showPopover.value) {
+      popperInstance.update();
+    }
+  };
+
+  const appointmentDetails = ref(null);
+
+  const closePopover = [
+    () => {
+      showPopover.value = false;
+    },
+    { ignore: [appointmentDetails] },
+  ];
+
+  const editAppointment = () => {
+    emit('edit', props.appointment);
+  };
+</script>
+
+<template>
+  <p
+    :id="`appointment${props.appointment.id}`"
+    v-on-click-outside="closePopover"
+    class="mb-1 mt-0 cursor-pointer rounded-sm p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
+    :style="`background-color:
+    ${props.appointment.color}`"
+    @click="togglePopover"
+  >
+    <span class="italic">{{ startTime }}</span>
+    {{ props.appointment.title }}
+  </p>
+  <Teleport to="body">
+    <div
+      :id="`tooltip${props.appointment.id}`"
+      ref="appointmentDetails"
+      class="hidden max-w-[400px] overflow-hidden rounded border bg-white p-4 shadow"
+      :class="{ '!block': showPopover }"
+    >
+      <div
+        class="flex items-center justify-between text-lg font-medium"
+      >
+        <div>{{ props.appointment.title }}</div>
+
+        <button
+          class="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+          @click="editAppointment"
+        >
+          <PencilIcon class="h-4 w-4 text-gray-500" />
+        </button>
+      </div>
+      <div class="my-2 text-xs italic">
+        <span>Scheduled at</span> {{ startTime }}
+        <span>Ends At</span>
+        {{ endTime }}
+      </div>
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold">Assigned to</div>
+          <div
+            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            @click="handleUserClick(assignedTo?.id)"
+          >
+            {{ assignedToName }}
+          </div>
+        </div>
+        <div v-if="client">
+          <div class="text-xs font-bold">Client</div>
+          <div
+            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            @click="handleUserClick(client?.id)"
+          >
+            {{ clientName }}
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs font-bold">Created by</div>
+          <div
+            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            @click="handleUserClick(createdBy?.id)"
+          >
+            {{ createdByName }}
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-3 max-h-[150px] overflow-y-scroll text-xs text-gray-400"
+      >
+        {{ props.appointment.description }}
+      </div>
+    </div>
+  </Teleport>
+</template>
+
+<style scoped></style>

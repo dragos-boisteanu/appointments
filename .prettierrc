@@ -1,0 +1,9 @@
+{
+  "singleQuote": true,
+  "vueIndentScriptAndStyle": true,
+  "printWidth": 70,
+  "semi": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
