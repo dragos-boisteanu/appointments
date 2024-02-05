@@ -6,7 +6,7 @@
     <slot name="dialog"></slot>
     <div
       v-on-click-outside="closeByClickOutside"
-      class="absolute left-1/2 top-1/2 z-20 h-auto w-4/5 -translate-x-1/2 -translate-y-1/2 rounded bg-white p-4 opacity-100 shadow sm:w-11/12 md:w-3/4 lg:w-2/5 xl:w-1/3"
+      class="absolute left-1/2 top-1/2 z-20 h-auto w-4/5 -translate-x-1/2 -translate-y-1/2 rounded bg-white p-4 opacity-100 shadow xl:w-1/2  2xl:w-2/5 3xl:w-1/3 4xl:w-1/4 5xl:w-2/12 "
     >
       <div
         class="flex justify-between align-middle text-xl font-semibold"
