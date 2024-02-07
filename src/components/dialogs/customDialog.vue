@@ -3,11 +3,14 @@
     <div
       class="absolute z-10 h-full w-full bg-zinc-800 opacity-75"
     ></div>
-    <slot name="dialog"></slot>
+    <!--    xl:w-1/2 2xl:w-2/5 3xl:w-1/3 4xl:w-1/4 5xl:w-2/12-->
     <div
       v-on-click-outside="closeByClickOutside"
-      class="absolute left-1/2 top-1/2 z-20 h-auto w-4/5 -translate-x-1/2 -translate-y-1/2 rounded bg-white p-4 opacity-100 shadow xl:w-1/2  2xl:w-2/5 3xl:w-1/3 4xl:w-1/4 5xl:w-2/12 "
+      class="absolute left-1/2 top-1/2 z-20 h-auto w-auto max-w-[85%] -translate-x-1/2 -translate-y-1/2 rounded bg-white p-6 opacity-100 shadow"
+      :style="{ width: `${width} !important` }"
     >
+      <slot name="dialog"></slot>
+
       <div
         class="flex justify-between align-middle text-xl font-semibold"
       >
@@ -32,6 +35,7 @@
       required: false,
       default: false,
     },
+    width: { type: String, required: false, default: '' },
   });
 
   const emit = defineEmits(['close']);

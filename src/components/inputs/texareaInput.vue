@@ -24,7 +24,7 @@
       :value="model"
       @input="emitUpdate($event)"
     />
-    <div class="h-4 text-xs text-red-500">
+    <div v-if="!hideError" class="h-4 text-xs text-red-500">
       {{ props.errorMessage }}
     </div>
   </div>
@@ -43,6 +43,7 @@
     disabled: { type: Boolean, required: false, default: false },
     valid: { type: Boolean, required: false, default: false },
     autofocus: { type: Boolean, required: false, default: false },
+    hideError: { type: Boolean, required: false, default: false },
   });
 
   const model = defineModel();

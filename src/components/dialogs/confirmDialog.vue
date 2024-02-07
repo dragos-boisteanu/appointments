@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <custom-dialog @close="close()">
+  <custom-dialog @close="close()" width="400px">
     <template #header>{{ props.title }}</template>
     <template #content> {{ props.text }}</template>
     <template #actions>

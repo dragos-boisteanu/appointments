@@ -2,7 +2,7 @@
   import { computed, inject, ref, toRaw } from 'vue';
   import { useUsersStore } from '@/stores/users.js';
   import { useRoute, useRouter } from 'vue-router';
-  import ViewUserDialog from '../../components/users/dialogs/viewUserDialog.vue';
+  import ViewUserDialog from '../../components/users/dialogs/editUserDialog.vue';
   import { useToast } from 'vue-toastification';
 
   const usersService = inject('usersService');

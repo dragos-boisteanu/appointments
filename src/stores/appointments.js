@@ -4,37 +4,45 @@ import { ref } from 'vue';
 export const useAppointmentsStore = defineStore(
   'appointments',
   () => {
-    const appointments = ref([]);
+    const list = ref([]);
 
     const set = (payload) => {
-      appointments.value = payload;
+      list.value = payload;
     };
 
     const add = (payload) => {
-      appointments.value.push(payload);
+      list.value.push(payload);
     };
 
+    /**
+     *
+     * @param {string} appointmentId
+     */
     const remove = (appointmentId) => {
-      const appointmentIndex = appointments.value.findIndex(
+      const appointmentIndex = list.value.findIndex(
         (appointment) => appointment.id === appointmentId,
       );
 
       if (appointmentIndex > -1) {
-        appointments.value.splice(appointmentIndex, 1);
+        list.value.splice(appointmentIndex, 1);
       }
     };
 
     const update = (payload) => {
-      const appointmentIndex = appointments.value.findIndex(
+      const appointmentIndex = list.value.findIndex(
         (appointment) => appointment.id === payload.id,
       );
 
+      let result = [];
+
       if (appointmentIndex > -1) {
-        appointments.value.splice(appointmentIndex, 1, payload);
+        result = list.value.splice(appointmentIndex, 1, payload);
       }
+
+      return result.length;
     };
     return {
-      appointments,
+      list,
       set,
       add,
       remove,

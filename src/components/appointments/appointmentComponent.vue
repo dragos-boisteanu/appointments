@@ -1,5 +1,12 @@
 <script setup>
-  import { computed, inject, onMounted, onUnmounted, ref } from 'vue';
+  import {
+    computed,
+    inject,
+    onMounted,
+    onUnmounted,
+    ref,
+    toRaw,
+  } from 'vue';
   import { createPopper } from '@popperjs/core';
   import { vOnClickOutside } from '@vueuse/components';
   import { useUsersStore } from '@/stores/users.js';
@@ -10,7 +17,7 @@
     appointment: { type: Object, required: true },
   });
 
-  const emit = defineEmits(['edit']);
+  const emit = defineEmits(['edit', 'delete']);
 
   const dayjs = inject('dayJS');
 
@@ -140,9 +147,11 @@
     { ignore: [appointmentDetails] },
   ];
 
-  const editAppointment = () => {
-    emit('edit', props.appointment);
-  };
+  const editAppointment = () =>
+    emit('edit', toRaw(props.appointment));
+
+  const deleteAppointment = () =>
+    emit('delete', toRaw(props.appointment));
 </script>
 
 <template>
@@ -161,7 +170,7 @@
     <div
       :id="`tooltip${props.appointment.id}`"
       ref="appointmentDetails"
-      class="hidden max-w-[400px] overflow-hidden rounded border bg-white p-4 shadow"
+      class="hidden w-fit max-w-[450px] overflow-hidden rounded border bg-white p-4 shadow"
       :class="{ '!block': showPopover }"
     >
       <div
@@ -169,23 +178,32 @@
       >
         <div>{{ props.appointment.title }}</div>
 
-        <button
-          class="cursor-pointer rounded-full p-2 hover:bg-gray-100"
-          @click="editAppointment"
-        >
-          <PencilIcon class="h-4 w-4 text-gray-500" />
-        </button>
+        <div class="flex items-center gap-x-2">
+          <button
+            class="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+            @click="editAppointment"
+          >
+            <PencilIcon class="h-4 w-4 text-gray-500" />
+          </button>
+
+          <button
+            class="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+            @click="deleteAppointment"
+          >
+            <TrashIcon class="h-4 w-4 text-red-500" />
+          </button>
+        </div>
       </div>
       <div class="my-2 text-xs italic">
         <span>Scheduled at</span> {{ startTime }}
         <span>Ends At</span>
         {{ endTime }}
       </div>
-      <div class="flex items-center justify-between">
+      <div class="flex items-center gap-x-4">
         <div>
           <div class="text-xs font-bold">Assigned to</div>
           <div
-            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            class="mt-0.5 max-w-36 overflow-hidden text-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
             @click="handleUserClick(assignedTo?.id)"
           >
             {{ assignedToName }}
@@ -194,7 +212,7 @@
         <div v-if="client">
           <div class="text-xs font-bold">Client</div>
           <div
-            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            class="mt-0.5 max-w-36 overflow-hidden text-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
             @click="handleUserClick(client?.id)"
           >
             {{ clientName }}
@@ -204,7 +222,7 @@
         <div>
           <div class="text-xs font-bold">Created by</div>
           <div
-            class="mt-0.5 overflow-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
+            class="mt-0.5 max-w-36 overflow-hidden text-ellipsis whitespace-nowrap rounded-3xl border border-gray-200 bg-gray-100 p-1 text-center text-xs hover:cursor-pointer hover:brightness-105"
             @click="handleUserClick(createdBy?.id)"
           >
             {{ createdByName }}

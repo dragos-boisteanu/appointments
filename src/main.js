@@ -24,9 +24,11 @@ import {
   UserPlusIcon,
   XCircleIcon,
   XMarkIcon,
+  TrashIcon,
 } from '@heroicons/vue/20/solid';
 import UsersService from './services/usersService';
 import RolesService from './services/rolesService';
+import AppointmentsService from '@/services/appointmentsService.js';
 
 const app = createApp(App);
 
@@ -44,6 +46,7 @@ app.component('PencilIcon', PencilIcon);
 app.component('XCircleIcon', XCircleIcon);
 app.component('UserPlusIcon', UserPlusIcon);
 app.component('UserIcon', UserIcon);
+app.component('TrashIcon', TrashIcon);
 
 const pinia = createPinia();
 app.use(pinia);
@@ -58,6 +61,7 @@ app.use(router);
 
 app.provide('usersService', new UsersService());
 app.provide('rolesService', new RolesService());
+app.provide('appointmentsService', new AppointmentsService());
 app.provide('dayJS', dayjs); // provide dayJS
 
 app.mount('#app');

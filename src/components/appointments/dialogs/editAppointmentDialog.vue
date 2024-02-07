@@ -1,15 +1,15 @@
 <script setup>
   import CustomDialog from '../../dialogs/customDialog.vue';
   import TextInput from '../../inputs/textInput.vue';
-  import { ref } from 'vue';
+  import { ref, toRaw } from 'vue';
   import TextareaInput from '../../inputs/texareaInput.vue';
 
   const props = defineProps({
     appointment: { type: Object, required: true },
-    isLoading: { type: Boolean, required: false, default: true },
+    isLoading: { type: Boolean, required: false, default: false },
   });
 
-  const emit = defineEmits(['close']);
+  const emit = defineEmits(['close', 'save']);
 
   const close = () => emit('close');
 
@@ -18,20 +18,24 @@
   );
 
   const durations = [15, 30, 45, 60, 90, 120];
+
+  const save = () => emit('save', toRaw(appointment.value));
 </script>
 
 <template>
-  <custom-dialog @close="close()">
+  <custom-dialog @close="close()" width="400px">
     <template #header>Edit appointment</template>
     <template #content>
       <form class="flex flex-col gap-y-4">
         <text-input
           id="title"
+          label="Title"
           v-model="appointment.title"
           name="title"
         />
         <textarea-input
           id="description"
+          label="Descroption"
           v-model="appointment.description"
           name="description"
         />
@@ -43,8 +47,7 @@
             name="date"
             label="Date"
             mode="dateTime"
-            :enable-time-picker="false"
-          ></datepickerInput>
+          />
 
           <select>
             <option
@@ -56,6 +59,15 @@
           </select>
         </div>
       </form>
+    </template>
+    <template #actions>
+      <buttonComponent :text="true" type="plain" @click="close()"
+        >Cancel</buttonComponent
+      >
+
+      <buttonComponent :loading="props.isLoading" @click="save()"
+        >Save</buttonComponent
+      >
     </template>
   </custom-dialog>
 </template>

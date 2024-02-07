@@ -1,14 +1,19 @@
 <script setup lang="ts">
-  import { computed, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
   import appointment from '../../components/appointments/appointmentComponent.vue';
-  import { useAppointmentsStore } from '@/stores/appointments';
+  import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
+  import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
 
-  const appointmentsStore = useAppointmentsStore();
+  const appointmentsService = inject('appointmentsService');
+
   const masks = ref({
     weekdays: 'WWW',
   });
+
+  const appointments = ref(appointmentsService.getList());
   const attributes = computed(() => {
-    return appointmentsStore.appointments.map((appointment) => {
+    console.log('appointments');
+    return appointments.value.map((appointment) => {
       return {
         key: appointment.id,
         customData: appointment,
@@ -19,16 +24,52 @@
   });
 
   const selectedAppointment = ref(null);
+
+  const showEditAppointmentDialog = (appointment) =>
+    (selectedAppointment.value = appointment);
   const editAppointment = (appointment) => {
-    selectedAppointment.value = appointment;
+    appointmentsService.edit(appointment);
+    selectedAppointment.value = null;
+  };
+
+  const showDeleteConfirmationDialog = ref(false);
+  const confirmationDialogTitle = ref('');
+  const confirmationDialogText = ref('');
+  const appointedToDelete = ref(null);
+  const toggleDeleteConfirmation = (appointment) => {
+    console.log('toggleDeleteConfirmation', appointment);
+    if (showDeleteConfirmationDialog.value) {
+      showDeleteConfirmationDialog.value = false;
+      appointedToDelete.value = null;
+    } else {
+      appointedToDelete.value = appointment;
+      confirmationDialogText.value = `Are you sure you want to delete appointment
+      ${appointment.title} ?`;
+      confirmationDialogTitle.value = 'Delete user account';
+      showDeleteConfirmationDialog.value = true;
+    }
+  };
+  const deleteAppointment = () => {
+    console.log('deleteAppointment', appointedToDelete.value.id);
+    appointmentsService.delete(appointedToDelete.value.id);
+    toggleDeleteConfirmation(null);
   };
 </script>
 
 <template>
-  <!--  <edit-appointment-dialog
+  <confirm-dialog
+    v-if="showDeleteConfirmationDialog"
+    :title="confirmationDialogTitle"
+    :text="confirmationDialogText"
+    @close="toggleDeleteConfirmation"
+    @confirm="deleteAppointment"
+  />
+  <edit-appointment-dialog
     v-if="selectedAppointment"
     :appointment="selectedAppointment"
-  />-->
+    @save="editAppointment"
+    @close="selectedAppointment = null"
+  />
   <div class="relative flex h-full w-full flex-col">
     <div class="flex flex-1 flex-col">
       <div class="mt-4 flex-1 overflow-auto" style="flex: 1 0 0">
@@ -55,7 +96,8 @@
                   v-for="attr in attributes"
                   :key="attr.key"
                   :appointment="attr.customData"
-                  @edit="editAppointment"
+                  @edit="showEditAppointmentDialog"
+                  @delete="toggleDeleteConfirmation"
                 />
               </div>
             </div>
