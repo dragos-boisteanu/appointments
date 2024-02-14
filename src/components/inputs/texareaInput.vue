@@ -7,7 +7,7 @@
       >{{ props.label }}</label
     >
     <textarea
-      class="max-h-32 w-full overflow-y-auto rounded border-2 border-gray-200 p-2 pr-7 text-sm outline-none focus:border-sky-700 focus:shadow-sm focus:shadow-sky-100"
+      class="max-h-40 min-h-20 w-full overflow-y-auto rounded border-2 border-gray-200 p-2 pr-7 text-sm outline-none focus:border-sky-700 focus:shadow-sm focus:shadow-sky-100"
       :class="{
         'border-red-500 focus:border-red-500 focus:shadow-sm focus:shadow-red-100':
           props.errorMessage,

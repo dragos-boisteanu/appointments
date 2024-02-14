@@ -110,6 +110,7 @@
         </div>
 
         <div class="flex items-center justify-between gap-x-8">
+          <!--          TODO: fix date not being visible-->
           <datepickerInput
             id="birthDate"
             v-model="user.details.birthDate"

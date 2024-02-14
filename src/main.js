@@ -25,6 +25,7 @@ import {
   XCircleIcon,
   XMarkIcon,
   TrashIcon,
+  ChevronDownIcon,
 } from '@heroicons/vue/20/solid';
 import UsersService from './services/usersService';
 import RolesService from './services/rolesService';
@@ -47,6 +48,7 @@ app.component('XCircleIcon', XCircleIcon);
 app.component('UserPlusIcon', UserPlusIcon);
 app.component('UserIcon', UserIcon);
 app.component('TrashIcon', TrashIcon);
+app.component('ChevronDownIcon', ChevronDownIcon);
 
 const pinia = createPinia();
 app.use(pinia);

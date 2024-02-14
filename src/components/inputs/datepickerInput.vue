@@ -14,6 +14,7 @@
       :model-config="modelConfig"
       :input-debounce="500"
       :mode="mode"
+      :is24hr="true"
       color="blue"
       title-position="left"
     >
@@ -96,7 +97,11 @@
       return model.value;
     },
     set(value) {
-      model.value = value.toString();
+      if (value) {
+        model.value = value.toString();
+      } else {
+        model.value = '';
+      }
     },
   });
 </script>

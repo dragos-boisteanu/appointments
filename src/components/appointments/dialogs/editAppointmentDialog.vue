@@ -3,6 +3,7 @@
   import TextInput from '../../inputs/textInput.vue';
   import { ref, toRaw } from 'vue';
   import TextareaInput from '../../inputs/texareaInput.vue';
+  import SelectInput from '@/components/inputs/selectInput.vue';
 
   const props = defineProps({
     appointment: { type: Object, required: true },
@@ -26,7 +27,7 @@
   <custom-dialog @close="close()" width="400px">
     <template #header>Edit appointment</template>
     <template #content>
-      <form class="flex flex-col gap-y-4">
+      <form class="flex flex-col gap-y-2">
         <text-input
           id="title"
           label="Title"
@@ -49,14 +50,12 @@
             mode="dateTime"
           />
 
-          <select>
-            <option
-              v-for="(duration, index) in durations"
-              :key="index"
-            >
-              {{ duration }}
-            </option>
-          </select>
+          <select-input
+            :items="durations"
+            v-model="appointment.duration"
+            id="duration"
+            label="Duration"
+          />
         </div>
       </form>
     </template>

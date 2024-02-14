@@ -37,7 +37,6 @@
   const confirmationDialogText = ref('');
   const appointedToDelete = ref(null);
   const toggleDeleteConfirmation = (appointment) => {
-    console.log('toggleDeleteConfirmation', appointment);
     if (showDeleteConfirmationDialog.value) {
       showDeleteConfirmationDialog.value = false;
       appointedToDelete.value = null;
@@ -72,7 +71,11 @@
   />
   <div class="relative flex h-full w-full flex-col">
     <div class="flex flex-1 flex-col">
-      <div class="mt-4 flex-1 overflow-auto" style="flex: 1 0 0">
+      <div
+        class="mt-4 flex-1 overflow-auto"
+        id="appointments-calendar"
+        style="flex: 1 0 0"
+      >
         <VCalendar
           class="!w-full"
           :masks="masks"
@@ -109,14 +112,14 @@
 </template>
 
 <style scoped>
-  :deep(.vc-week) {
+  :deep(#appointments-calendar .vc-week) {
     margin: 8px 0 8px 0;
     column-gap: 8px;
     min-height: 192px;
     max-height: 192px;
   }
 
-  :deep(.vc-day) {
+  :deep(#appointments-calendar .vc-day) {
     position: unset;
     z-index: unset;
   }
