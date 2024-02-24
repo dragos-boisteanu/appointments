@@ -17,7 +17,7 @@ export const useUsersStore = defineStore('users', () => {
    *
    * @param  users
    */
-  const setUsers = (users) => {
+  const set = (users) => {
     list.value = users;
   };
 
@@ -25,8 +25,7 @@ export const useUsersStore = defineStore('users', () => {
    *
    * @param {ViewUser} user
    */
-  const addUser = (user) => {
-    console.log('addUser', user);
+  const add = (user) => {
     list.value.push(user);
   };
 
@@ -35,7 +34,7 @@ export const useUsersStore = defineStore('users', () => {
    * @param {ViewUser} payload
    * @returns {ViewUser[]|[]}
    */
-  const updateUser = (payload) => {
+  const update = (payload) => {
     let result = [];
     const userIndex = getUserIndexById(payload.id);
 
@@ -67,7 +66,7 @@ export const useUsersStore = defineStore('users', () => {
    * @param {string} id
    * @returnss {ViewUser}
    */
-  const getUserById = (id) => {
+  const getById = (id) => {
     const user = list.value.find((user) => user.id === id);
 
     if (!user) {
@@ -88,12 +87,12 @@ export const useUsersStore = defineStore('users', () => {
 
   return {
     list,
-    setUsers,
-    addUser,
-    updateUser,
+    set,
+    add,
+    update,
     removeUser,
     totalPages,
     setTotalPages,
-    getUserById,
+    getById,
   };
 });

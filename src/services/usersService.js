@@ -1,24 +1,26 @@
-import { useUsersStore } from '@/stores/users.js';
 import { useRolesStore } from '@/stores/roles.js';
 import { useUserStatusesStore } from '@/stores/userStatuses.js';
 import uniqueId from 'lodash/uniqueId.js';
 import ViewUser from '@/models/user/viewUser.js';
-import { toRaw } from 'vue';
 export default class UsersService {
-  #usersStore;
-  constructor() {
-    this.#usersStore = useUsersStore();
+  #usersRepository;
+
+  constructor(usersRepository) {
+    this.#usersRepository = usersRepository;
   }
+
+  getList = () => this.#usersRepository.getList();
+  set = (users) => this.#usersRepository.set(users);
   /**
    *
    * @param {UsersFilter} filterData
    * @returns {User[]}
    */
-  getUsers(filterData) {
+  getFilteredList = (filterData) => {
     try {
       let limit = 10;
       let offset = 0;
-      let users = this.#usersStore.list;
+      let users = this.#usersRepository.getList();
 
       if (filterData.page > 1) {
         offset = limit * (filterData.page - 1);
@@ -63,21 +65,29 @@ export default class UsersService {
         );
       }
 
-      this.#usersStore.setTotalPages(Math.ceil(users.length / 25));
+      this.#usersRepository.setTotalPages(
+        Math.ceil(users.length / 25),
+      );
 
       return users.slice(offset, limit);
     } catch (error) {
       console.error('getUsers error', error);
       throw error;
     }
-  }
+  };
 
+  /**
+   *
+   * @param {string} userId
+   * @returns {ViewUser}
+   */
+  getById = (userId) => this.#usersRepository.getById(userId);
   /**
    *
    * @param {User} user
    * @returns {Promise<ViewUser>}
    */
-  addUser = async (user) => {
+  add = async (user) => {
     const userId = (Number.parseInt(uniqueId()) + 1).toString();
 
     try {
@@ -94,18 +104,23 @@ export default class UsersService {
       const viewUser = new ViewUser(
         userId,
         user.email,
-        user.details,
-        toRaw(status),
-        toRaw(role),
+        user.details.firstName,
+        user.details.lastName,
+        user.details.phoneNumber,
+        user.details.birthDate,
+        user.details.description,
+        status.id,
+        status.name,
+        role.id,
+        role.name,
         user.createdAt,
         user.updatedAt,
       );
 
-      console.log('viewUser', viewUser);
-      this.#usersStore.addUser(viewUser);
+      this.#usersRepository.add(viewUser);
       return viewUser;
     } catch (error) {
-      console.error('addUserError', error.message);
+      console.error('addError', error.message);
       throw error;
     }
   };
@@ -115,8 +130,8 @@ export default class UsersService {
    * @param {string} userId
    * @return {ViewUser[]}
    */
-  deleteUser = (userId) => {
-    return this.#usersStore.removeUser(userId);
+  delete = (userId) => {
+    return this.#usersRepository.removeUser(userId);
   };
 
   /**
@@ -124,7 +139,21 @@ export default class UsersService {
    * @param user
    * @return {ViewUser[]}
    */
-  updateUser = (user) => {
-    this.#usersStore.updateUser(user);
+  update = (user) => {
+    this.#usersRepository.update(user);
   };
+
+  /**
+   *
+   * @returns {number}
+   */
+  getTotalPages = () => this.#usersRepository.getTotalPages();
+
+  /**
+   *
+   * @param {number} pages
+   * @returns {void|*}
+   */
+  setTotalPages = (pages) =>
+    this.#usersRepository.setTotalPages(pages);
 }

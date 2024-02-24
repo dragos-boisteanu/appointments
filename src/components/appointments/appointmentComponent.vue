@@ -9,7 +9,7 @@
   } from 'vue';
   import { createPopper } from '@popperjs/core';
   import { vOnClickOutside } from '@vueuse/components';
-  import { useUsersStore } from '@/stores/users.js';
+
   import { useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
 
@@ -22,7 +22,7 @@
   const dayjs = inject('dayJS');
 
   const toast = useToast();
-  const usersStore = useUsersStore();
+  const usersService = inject('usersService');
   const showPopover = ref(false);
   const router = useRouter();
 
@@ -68,7 +68,7 @@
     let user;
 
     try {
-      user = usersStore.getUserById(props.appointment.createdBy);
+      user = usersService.getById(props.appointment.createdBy);
     } catch (error) {
       user = null;
     }
@@ -88,7 +88,7 @@
     let user;
 
     try {
-      user = usersStore.getUserById(props.appointment.assignedTo);
+      user = usersService.getById(props.appointment.assignedTo);
     } catch (error) {
       user = null;
     }
@@ -108,7 +108,7 @@
     let user;
 
     try {
-      user = usersStore.getUserById(props.appointment.clientId);
+      user = usersService.getById(props.appointment.clientId);
     } catch (error) {
       user = null;
     }

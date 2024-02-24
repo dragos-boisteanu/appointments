@@ -2,35 +2,44 @@ export default class ViewUser {
   id = '';
   email = '';
   details = null;
-  status = null;
-  role = null;
+  firstName = '';
+  lastName = '';
+  phoneNumber = '';
+  birthDate = '';
+  description = '';
+  statusId = '';
+  statusName = '';
+  roleId = '';
+  roleName = '';
   createdAt = '';
   updatedAt = '';
 
-  /**
-   *
-   * @param {string} id
-   * @param {string} email
-   * @param {UserDetails} details
-   * @param {UserStatus} status
-   * @param {Role} role
-   * @param {string} createdAt
-   * @param {string}updatedAt
-   */
   constructor(
-    id,
-    email,
-    details,
-    status,
-    role,
-    createdAt,
-    updatedAt,
+    id = '',
+    email = '',
+    firstName = '',
+    lastName = '',
+    phoneNumber = '',
+    birthDate = '',
+    description = '',
+    statusId = '',
+    statusName = '',
+    roleId = '',
+    roleName = '',
+    createdAt = '',
+    updatedAt = '',
   ) {
     this.id = id;
     this.email = email;
-    this.details = details;
-    this.status = status;
-    this.role = role;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.birthDate = birthDate;
+    this.description = description;
+    this.statusId = statusId;
+    this.statusName = statusName;
+    this.roleId = roleId;
+    this.roleName = roleName;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

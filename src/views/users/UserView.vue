@@ -1,6 +1,5 @@
 <script setup>
-  import { computed, inject, ref, toRaw } from 'vue';
-  import { useUsersStore } from '@/stores/users.js';
+  import { computed, inject, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import ViewUserDialog from '../../components/users/dialogs/editUserDialog.vue';
   import { useToast } from 'vue-toastification';
@@ -8,19 +7,19 @@
   const usersService = inject('usersService');
 
   const toast = useToast();
-  const usersStore = useUsersStore();
   const route = useRoute();
   const router = useRouter();
 
-  const user = computed(() => {
-    let user;
-    try {
-      user = usersStore.getUserById(route.params.id.toString());
-    } catch (error) {
-      console.error('userViewUser', error);
-    }
-    return user;
-  });
+  // const user = computed(() => {
+  let user = ref(null);
+  try {
+    user.value = usersService.getById(route.params.id.toString());
+  } catch (error) {
+    // console.error('userViewUser', error);
+    toast.error('User not found');
+  }
+  // return user;
+  // });
 
   const userName = computed(() => {
     let userName;
@@ -51,12 +50,15 @@
   });
 
   const updateSelectedUser = (payload) => {
-    usersService.updateUser(payload);
+    usersService.update(payload);
     toggleEditUser();
     toast.success('User updated');
   };
-  const handleDeleteUser = (userId) => {
-    usersService.deleteUser(userId);
+  const handleDelete = (userId) => {
+    usersService.delete(userId);
+
+    toggleEditUser();
+
     toast.success('User deleted');
 
     router.push({ name: 'users' });
@@ -76,7 +78,7 @@
       :user="user"
       @close="toggleEditUser"
       @save="updateSelectedUser"
-      @delete="handleDeleteUser"
+      @delete="handleDelete"
     />
 
     <div class="flex items-center gap-x-4">

@@ -1,28 +1,30 @@
-import { useAppointmentsStore } from '@/stores/appointments.js';
-
 export default class AppointmentsService {
-  #appointmentsStore;
+  #appointmentsRepository;
 
-  constructor() {
-    this.#appointmentsStore = useAppointmentsStore();
+  constructor(appointmentsRepository) {
+    this.#appointmentsRepository = appointmentsRepository;
   }
 
-  getList() {
-    return this.#appointmentsStore.list;
+  getList = () => this.#appointmentsRepository.getList();
+
+  getFilteredList() {
+    return this.#appointmentsRepository.getList();
   }
 
+  set = (appointments) =>
+    this.#appointmentsRepository.set(appointments);
   /**
    *
    * @param {Appointment} appointment
    */
   edit(appointment) {
-    return this.#appointmentsStore.update(appointment);
+    return this.#appointmentsRepository.update(appointment);
   }
   /**
    *
    * @param {number} id
    */
   delete(id) {
-    this.#appointmentsStore.remove(id);
+    this.#appointmentsRepository.remove(id);
   }
 }

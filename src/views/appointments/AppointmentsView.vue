@@ -3,9 +3,10 @@
   import appointment from '../../components/appointments/appointmentComponent.vue';
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
+  import { useToast } from 'vue-toastification';
 
   const appointmentsService = inject('appointmentsService');
-
+  const toast = useToast();
   const masks = ref({
     weekdays: 'WWW',
   });
@@ -30,6 +31,8 @@
   const editAppointment = (appointment) => {
     appointmentsService.edit(appointment);
     selectedAppointment.value = null;
+
+    toast.success('Appointment updated');
   };
 
   const showDeleteConfirmationDialog = ref(false);
@@ -52,7 +55,14 @@
     console.log('deleteAppointment', appointedToDelete.value.id);
     appointmentsService.delete(appointedToDelete.value.id);
     toggleDeleteConfirmation(null);
+
+    toast.success('Appointment deleted');
   };
+
+  const showCreateAppointmentDialog = ref(false);
+  const toggleCreateAppointmentDialog = () =>
+    (showCreateAppointmentDialog.value =
+      !showCreateAppointmentDialog.value);
 </script>
 
 <template>
@@ -70,6 +80,12 @@
     @close="selectedAppointment = null"
   />
   <div class="relative flex h-full w-full flex-col">
+    <button
+      @click="toggleCreateAppointmentDialog"
+      class="fixed bottom-5 right-5 z-10 rounded-full bg-sky-600 p-2 shadow hover:bg-sky-500 active:bg-sky-700 active:shadow-inner"
+    >
+      <PlusIcon class="size-8 fill-white" />
+    </button>
     <div class="flex flex-1 flex-col">
       <div
         class="mt-4 flex-1 overflow-auto"

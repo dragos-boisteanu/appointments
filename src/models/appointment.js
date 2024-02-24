@@ -28,18 +28,18 @@ export default class Appointment {
    * @param {string} updatedAt
    */
   constructor(
-    id,
-    clientId,
-    assignedTo,
-    title,
-    description,
-    date,
-    color,
-    duration,
-    createdBy,
-    updatedBy,
-    createdAt,
-    updatedAt,
+    id = '',
+    clientId = '',
+    assignedTo = '',
+    title = '',
+    description = '',
+    date = '',
+    color = '',
+    duration = '',
+    createdBy = '',
+    updatedBy = '',
+    createdAt = '',
+    updatedAt = '',
   ) {
     this.id = id;
     this.clientId = clientId;

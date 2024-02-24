@@ -24,7 +24,7 @@
 </script>
 
 <template>
-  <custom-dialog @close="close()" width="400px">
+  <custom-dialog @close="close()" width="600px">
     <template #header>Edit appointment</template>
     <template #content>
       <form class="flex flex-col gap-y-2">

@@ -48,7 +48,7 @@
     confirmationDialogTitle.value = 'Delete user account';
     showDeleteConfirmationDialog.value = true;
   };
-  const confirmDeleteUser = () => emit('delete', user.value.id);
+  const confirmDelete = () => emit('delete', user.value.id);
 
   const selectRole = (roleId) => {
     if (roleId) {
@@ -73,7 +73,7 @@
         :title="confirmationDialogTitle"
         :text="confirmationDialogText"
         @close="showDeleteConfirmationDialog = false"
-        @confirm="confirmDeleteUser"
+        @confirm="confirmDelete"
       />
     </template>
     <template #header> Create new user </template>

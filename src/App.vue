@@ -2,18 +2,17 @@
   import TopNav from './components/navigation/topNav.vue';
   import LeftNav from './components/navigation/leftNav.vue';
 
-  import { useUsersStore } from './stores/users';
   import { useRolesStore } from './stores/roles';
   import { useUserStatusesStore } from './stores/userStatuses';
-  import { useAppointmentsStore } from './stores/appointments';
   import { useGuiStore } from './stores/gui';
+  import { inject } from 'vue';
 
-  const usersStore = useUsersStore();
+  const usersService = inject('usersService');
   const rolesStore = useRolesStore();
   const guiStore = useGuiStore();
 
   const userStatusesStore = useUserStatusesStore();
-  const appointmentsStore = useAppointmentsStore();
+  const appointmentsService = inject('appointmentsService');
   const generateUsersLists = () => {
     // Function to generate a random string for email
     function generateRandomEmail() {
@@ -170,8 +169,8 @@
         return Math.floor(Math.random() * N) + 1;
       }
 
+      const usersCount = usersService.getList().length;
       for (let i = 1; i <= x; i++) {
-        const usersCount = usersStore.list.length;
         const appointment = {
           id: i.toString(),
           clientId: getRandomInteger(usersCount).toString(),
@@ -235,8 +234,8 @@
 
   const users = generateUsersLists();
 
-  usersStore.setUsers(users);
-  appointmentsStore.set(generateAppointmentsList(10));
+  usersService.set(users);
+  appointmentsService.set(generateAppointmentsList(10));
 </script>
 
 <template>

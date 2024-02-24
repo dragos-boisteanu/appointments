@@ -26,10 +26,15 @@ import {
   XMarkIcon,
   TrashIcon,
   ChevronDownIcon,
+  PlusIcon,
 } from '@heroicons/vue/20/solid';
 import UsersService from './services/usersService';
 import RolesService from './services/rolesService';
+import UsersRepository from './repositories/usersRepository.js';
 import AppointmentsService from '@/services/appointmentsService.js';
+import { useUsersStore } from '@/stores/users.js';
+import AppointmentsRepository from '@/repositories/appointmentsRepository.js';
+import { useAppointmentsStore } from '@/stores/appointments.js';
 
 const app = createApp(App);
 
@@ -49,6 +54,7 @@ app.component('UserPlusIcon', UserPlusIcon);
 app.component('UserIcon', UserIcon);
 app.component('TrashIcon', TrashIcon);
 app.component('ChevronDownIcon', ChevronDownIcon);
+app.component('PlusIcon', PlusIcon);
 
 const pinia = createPinia();
 app.use(pinia);
@@ -61,9 +67,17 @@ app.use(Toast, toastOptions);
 
 app.use(router);
 
-app.provide('usersService', new UsersService());
+app.provide(
+  'usersService',
+  new UsersService(new UsersRepository(useUsersStore())),
+);
 app.provide('rolesService', new RolesService());
-app.provide('appointmentsService', new AppointmentsService());
+app.provide(
+  'appointmentsService',
+  new AppointmentsService(
+    new AppointmentsRepository(useAppointmentsStore()),
+  ),
+);
 app.provide('dayJS', dayjs); // provide dayJS
 
 app.mount('#app');

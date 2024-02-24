@@ -4,14 +4,12 @@
   import createUserDialog from '../../components/users/dialogs/createUserDialog.vue';
 
   import { useRolesStore } from '@/stores/roles';
-  import { useUsersStore } from '@/stores/users';
   import { useToast } from 'vue-toastification';
 
   import PaginationComponent from '../../components/paginationComponent.vue';
   import { useRoute, useRouter } from 'vue-router';
 
   const rolesStore = useRolesStore();
-  const usersStore = useUsersStore();
 
   const router = useRouter();
   const route = useRoute();
@@ -40,7 +38,7 @@
 
   const currentPage = ref(1);
 
-  const getUsers = async (filter) => {
+  const getList = async (filter) => {
     const payload = Object.assign({}, filter);
     const query = {};
 
@@ -50,7 +48,7 @@
       }
     });
 
-    usersList.value = await usersService.getUsers(payload);
+    usersList.value = await usersService.getFilteredList(payload);
 
     await router.push({
       name: 'users',
@@ -62,7 +60,7 @@
 
   const handlePageSelected = async (page) => {
     currentPage.value = page;
-    await getUsers({
+    await getList({
       name: filterData.name,
       phoneNumber: filterData.phoneNumber,
       email: filterData.email,
@@ -80,7 +78,7 @@
       const filterData = Object.assign({}, value);
       currentPage.value = 1;
       filterData.page = 1;
-      await getUsers(filterData);
+      await getList(filterData);
     },
     { immediate: true },
   );
@@ -95,9 +93,9 @@
   };
   const handleCreateUser = async (user) => {
     try {
-      await usersService.addUser(user);
+      await usersService.add(user);
 
-      await getUsers(filterData);
+      await getList(filterData);
 
       toast.success('New user added');
       showNewUserDialog.value = false;
@@ -121,7 +119,7 @@
     />
 
     <div class="flex items-center justify-between gap-x-4">
-      <form class="3xl:w-1/3 flex w-full gap-x-4 gap-y-2 2xl:w-1/2">
+      <form class="flex w-full gap-x-4 gap-y-2 2xl:w-1/2 3xl:w-1/3">
         <textInput
           id="name"
           v-model.trim="filterData.name"
@@ -251,7 +249,7 @@
       </div>
       <div style="flex: 0 1 auto">
         <pagination-component
-          :total-pages="usersStore.totalPages"
+          :total-pages="usersService.getTotalPages()"
           :current-page="currentPage"
           @select="handlePageSelected"
         />
