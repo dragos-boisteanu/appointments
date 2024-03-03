@@ -27,6 +27,8 @@ import {
   TrashIcon,
   ChevronDownIcon,
   PlusIcon,
+  PhoneIcon,
+  EnvelopeIcon
 } from '@heroicons/vue/20/solid';
 import UsersService from './services/usersService';
 import RolesService from './services/rolesService';
@@ -55,6 +57,8 @@ app.component('UserIcon', UserIcon);
 app.component('TrashIcon', TrashIcon);
 app.component('ChevronDownIcon', ChevronDownIcon);
 app.component('PlusIcon', PlusIcon);
+app.component('PhoneIcon', PhoneIcon);
+app.component('EnvelopeIcon', EnvelopeIcon);
 
 const pinia = createPinia();
 app.use(pinia);

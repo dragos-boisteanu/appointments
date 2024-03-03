@@ -118,7 +118,7 @@
       @create="handleCreateUser"
     />
 
-    <div class="flex items-center justify-between gap-x-4">
+    <div class="hidden md:flex items-center justify-between gap-x-4">
       <form class="flex w-full gap-x-4 gap-y-2 2xl:w-1/2 3xl:w-1/3">
         <textInput
           id="name"
@@ -156,16 +156,16 @@
         class="flex-shrink-0 flex-grow-0"
         @click="toggleNewUserDialog"
       >
-        <UserPlusIcon class="h-5 w-5 text-white" />
+        <UserPlusIcon class="size-5 text-white" />
       </button-component>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 flex flex-col">
       <div class="mt-4 flex-1 overflow-auto" style="flex: 1 0 0">
         <div
-          class="grid h-full w-full grid-cols-12 content-start items-center justify-items-center"
+          class="block lg:grid h-full w-full grid-cols-12 content-start items-center justify-items-center"
         >
           <div
-            class="col-start-1 col-end-13 grid grid-cols-12 justify-items-center self-stretch justify-self-stretch border-b-2 p-4 align-middle"
+            class="hidden lg:grid col-start-1 col-end-13  grid-cols-12 justify-items-center self-stretch justify-self-stretch border-b-2 p-4 align-middle"
           >
             <div
               class="col-start-1 col-end-2 flex h-full w-full items-center pl-4 font-medium"
@@ -202,31 +202,31 @@
           <div
             v-for="(user, index) in usersList"
             :key="user.id"
-            class="col-start-1 col-end-13 grid h-full grid-cols-12 justify-items-center justify-self-stretch border-b p-4 align-middle last:border-b-0 even:bg-gray-50 even:font-medium hover:cursor-pointer hover:bg-gray-100"
+            class="col-start-1 col-end-13 grid gap-4 grid-cols-2 grid-rows-[24px_24px_24px_24px] lg:grid-rows-1 h-fit lg:h-full bg-white shadow-lg lg:shadow-none rounded-lg lg:rounded-none mt-2 lg:mt-0 lg:grid-cols-12 justify-items-center justify-self-stretch border-b p-4 align-middle lg:last:border-b-0 lg:even:bg-gray-100 lg:even:font-medium hover:cursor-pointer hover:bg-gray-100"
             @click="openUserDetails(user)"
           >
             <div
-              class="col-start-1 col-end-2 flex h-full w-full items-center justify-self-center pl-4"
+              class="hidden col-start-1 col-end-2 lg:flex h-full w-full items-center justify-self-center pl-4"
             >
               {{ index + 1 }}
             </div>
             <div
-              class="col-start-2 col-end-5 flex h-full w-full items-center justify-self-start overflow-hidden overflow-ellipsis whitespace-nowrap"
+              class="col-start-1 col-end-3 lg:col-start-2 lg:col-end-5 font-medium lg:font-normal flex h-full w-full items-center justify-self-start overflow-hidden overflow-ellipsis whitespace-nowrap"
             >
               {{ user.details.firstName }} {{ user.details.lastName }}
             </div>
             <div
-              class="col-start-5 col-end-6 flex h-full w-full items-center justify-center"
+              class="col-start-1 col-end-2 lg:col-start-5 lg:col-end-6 flex h-full w-full items-center justify-center"
             >
               <div
-                class="w-full min-w-16 max-w-28 rounded px-3 py-1 text-center text-sm font-normal capitalize text-white"
+                class="w-full lg:min-w-16 lg:max-w-28 rounded px-3 py-1 text-center text-sm font-normal capitalize text-white"
                 :class="user.role.color"
               >
                 {{ user.role.name }}
               </div>
             </div>
             <div
-              class="col-start-6 col-end-7 flex h-full w-full items-center justify-center"
+              class="col-start-2 col-end-3 lg:col-start-6 lg:col-end-7 flex h-full w-full items-center justify-center"
             >
               <div
                 class="w-full rounded-lg p-0.5 text-center text-sm font-normal"
@@ -235,14 +235,16 @@
               </div>
             </div>
             <div
-              class="col-start-7 col-end-9 flex h-full w-full items-center justify-self-start pl-4"
+              class="col-start-1 col-end-3 lg:col-start-7 lg:col-end-9 flex h-full w-full items-end gap-x-2 justify-self-start lg:pl-4"
             >
-              {{ user.details.phoneNumber }}
+              <PhoneIcon class="size-5 text-black"/>
+              <div>{{ user.details.phoneNumber }}</div>
             </div>
             <div
-              class="col-start-9 col-end-13 flex h-full w-full items-center justify-self-start pl-4"
+              class="col-start-1 col-end-3 lg:col-start-9 lg:col-end-13 flex h-full gap-x-2 w-full items-end justify-self-start lg:pl-4"
             >
-              {{ user.email }}
+              <EnvelopeIcon class="size-5 text-black"/>
+              <div>{{ user.email }}</div>
             </div>
           </div>
         </div>

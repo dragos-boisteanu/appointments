@@ -82,13 +82,13 @@
   <div class="relative flex h-full w-full flex-col">
     <button
       @click="toggleCreateAppointmentDialog"
-      class="fixed bottom-5 right-5 z-10 rounded-full bg-sky-600 p-2 shadow hover:bg-sky-500 active:bg-sky-700 active:shadow-inner"
+      class="fixed bottom-5 right-10 z-10 rounded-full bg-sky-600 p-2 shadow hover:bg-sky-500 active:bg-sky-700 active:shadow-inner"
     >
       <PlusIcon class="size-8 fill-white" />
     </button>
     <div class="flex flex-1 flex-col">
       <div
-        class="mt-4 flex-1 overflow-auto"
+        class="mt-4 flex flex-col flex-1 overflow-hidden"
         id="appointments-calendar"
         style="flex: 1 0 0"
       >
@@ -128,11 +128,14 @@
 </template>
 
 <style scoped>
+  :deep(.vc-container) {
+    flex: 1 1 0
+  }
   :deep(#appointments-calendar .vc-week) {
     margin: 8px 0 8px 0;
     column-gap: 8px;
-    min-height: 192px;
-    max-height: 192px;
+    min-height: 64px;
+    max-height: 128px;
   }
 
   :deep(#appointments-calendar .vc-day) {
