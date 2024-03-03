@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar {
+    @apply w-2
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-neutral-200 rounded-2xl
+    /* Customize the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-neutral-700 rounded-2xl
+    /* Customize the scrollbar thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-800
+}
