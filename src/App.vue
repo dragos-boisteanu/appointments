@@ -254,7 +254,7 @@
         <left-nav />
       </div>
 
-      <div class="w-full p-4 bg-gray-50">
+      <div class="w-full bg-gray-50">
         <router-view />
       </div>
     </div>
