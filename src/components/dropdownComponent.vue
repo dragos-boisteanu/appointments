@@ -106,7 +106,7 @@
 </script>
 
 <template>
-  <div class="relative flex flex-1 flex-col gap-y-1">
+  <div class="relative flex flex-1 flex-col gap-y-1 bg-white">
     <label
       v-if="props.label"
       class="text-sm font-semibold"

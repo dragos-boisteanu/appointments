@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 flex flex-1 flex-col gap-y-1">
+  <div class="w-100 flex flex-1 flex-col gap-y-1 bg-white bg-white">
     <label
       v-if="label"
       class="text-sm font-semibold"

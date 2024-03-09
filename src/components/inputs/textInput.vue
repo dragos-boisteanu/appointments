@@ -7,7 +7,7 @@
       >{{ props.label }}</label
     >
     <div
-      class="group flex w-full items-center justify-between rounded border-2 border-gray-200 px-2 focus-within:border-sky-700 focus-within:shadow-sm focus-within:shadow-sky-100"
+      class="group flex w-full items-center justify-between rounded border-2 border-gray-200 bg-white px-2 focus-within:border-sky-700 focus-within:shadow-sm focus-within:shadow-sky-100"
       :class="{
         'border-red-500 focus-within:border-red-500 focus-within:shadow-sm focus-within:shadow-red-100':
           props.errorMessage,
