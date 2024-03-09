@@ -9,23 +9,12 @@
   import PaginationComponent from '../../components/paginationComponent.vue';
   import { useRoute, useRouter } from 'vue-router';
 
-  const rolesStore = useRolesStore();
-
   const router = useRouter();
   const route = useRoute();
 
   const toast = useToast();
 
   const usersService = inject('usersService');
-
-  const filterData = reactive({
-    name: '',
-    phoneNumber: '',
-    email: '',
-    statusId: '',
-    roleId: '',
-    page: 1,
-  });
 
   Object.keys(route.query).forEach((key) => {
     if (filterData[key]) {
@@ -118,48 +107,21 @@
       @create="handleCreateUser"
     />
 
-    <div class="hidden items-center justify-between gap-x-4 md:flex">
-      <form class="flex w-full gap-x-4 gap-y-2 2xl:w-1/2 3xl:w-1/3">
-        <textInput
-          id="name"
-          v-model.trim="filterData.name"
-          name="name"
-          label="Name"
-        />
-        <textInput
-          id="phoneNumber"
-          v-model.trim="filterData.phoneNumber"
-          name="phoneNumber"
-          label="Phone number"
-        />
-        <textInput
-          id="email"
-          v-model.trim="filterData.email"
-          name="email"
-          label="Email"
-        />
-        <dropdown-component
-          id="role"
-          v-model="filterData.roleId"
-          key-field="id"
-          :values="rolesStore.list"
-          :multi-select="false"
-          name="role"
-          name-field="name"
-          label="Role"
-          value-field="id"
-          @select="selectRoleId"
-        />
-      </form>
-
-      <button-component
-        class="flex-shrink-0 flex-grow-0"
-        @click="toggleNewUserDialog"
-      >
-        <UserPlusIcon class="size-5 text-white" />
+    <div class="flex items-center justify-end gap-x-1">
+      <button-component :icon="true">
+        <BarsArrowDownIcon class="size-6 fill-neutral-700" />
+      </button-component>
+      <button-component :icon="true">
+        <FunnelIcon class="size-6 fill-neutral-700" />
       </button-component>
     </div>
-    <div class="flex flex-1 flex-col">
+    <div class="relative flex flex-1 flex-col">
+      <button
+        @click="toggleNewUserDialog"
+        class="fixed bottom-5 right-10 z-10 rounded-full bg-sky-600 p-3 shadow hover:bg-sky-500 active:bg-sky-700 active:shadow-inner"
+      >
+        <UserPlusIcon class="size-5 fill-white" />
+      </button>
       <div
         class="mt-4 flex-1 flex-shrink flex-grow basis-0 overflow-auto lg:flex-none"
       >

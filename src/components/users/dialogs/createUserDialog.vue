@@ -44,7 +44,7 @@
 </script>
 
 <template>
-  <custom-dialog @close="close()">
+  <custom-dialog @close="close()" width="600px">
     <template #header> Create new user </template>
     <template #content>
       <form class="flex flex-col gap-y-4">
