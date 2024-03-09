@@ -13,6 +13,17 @@ export default class AppointmentsService {
 
   set = (appointments) =>
     this.#appointmentsRepository.set(appointments);
+
+  add = (appointment) => {
+    const list = this.#appointmentsRepository.getList();
+    let id = 1;
+    if (list.length) {
+      id = list.at(-1);
+    }
+
+    appointment.id = id;
+    this.#appointmentsRepository.add(appointment);
+  };
   /**
    *
    * @param {Appointment} appointment

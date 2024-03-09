@@ -66,7 +66,7 @@
 </script>
 
 <template>
-  <custom-dialog @close="close()">
+  <custom-dialog @close="close()" width="600px">
     <template #dialog>
       <confirm-dialog
         v-if="showDeleteConfirmationDialog"

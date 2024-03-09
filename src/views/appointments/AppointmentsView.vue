@@ -4,6 +4,7 @@
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
   import { useToast } from 'vue-toastification';
+  import CreateAppointmentDialog from '@/components/appointments/dialogs/createAppointmentDialog.vue';
 
   const appointmentsService = inject('appointmentsService');
   const toast = useToast();
@@ -63,6 +64,12 @@
   const toggleCreateAppointmentDialog = () =>
     (showCreateAppointmentDialog.value =
       !showCreateAppointmentDialog.value);
+
+  const handleCreateAppointment = (appointment) => {
+    appointmentsService.add(appointment);
+    toggleCreateAppointmentDialog();
+    toast.success('Appointment created');
+  };
 </script>
 
 <template>
@@ -78,6 +85,11 @@
     :appointment="selectedAppointment"
     @save="editAppointment"
     @close="selectedAppointment = null"
+  />
+  <create-appointment-dialog
+    v-if="showCreateAppointmentDialog"
+    @save="handleCreateAppointment"
+    @close="toggleCreateAppointmentDialog"
   />
   <div class="relative flex h-full w-full flex-col">
     <button
