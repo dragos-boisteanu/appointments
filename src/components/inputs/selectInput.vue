@@ -42,7 +42,7 @@
 
 <template>
   <div
-    class="relative flex flex-1 flex-col gap-y-1"
+    class="relative flex flex-1 flex-col gap-y-1 bg-white"
     v-on-click-outside="closeList"
   >
     <label

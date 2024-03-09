@@ -20,6 +20,8 @@
     text: { required: false, type: Boolean },
     disabled: { required: false, type: Boolean },
     loading: { required: false, type: Boolean },
+
+    icon: { type: Boolean, required: false, default: false },
   });
 
   const classObject = computed(() => ({
@@ -31,55 +33,60 @@
 
   const classes = ref('');
 
-  switch (props.type) {
-    case 'warning':
-      if (props.text) {
-        classes.value =
-          'bg-none text-yellow-600 active:bg-yellow-100 hover:text-yellow-500 hover:bg-yellow-50 font-semibold';
-      } else {
-        classes.value =
-          'active:shadow-inner active:bg-yellow-500 bg-yellow-700 hover:bg-yellow-600';
-      }
+  if (props.icon) {
+    classes.value =
+      'bg-transparent hover:[&>*]:fill-neutral-600 active:[&>*]:fill-neutral-500';
+  } else {
+    switch (props.type) {
+      case 'warning':
+        if (props.text) {
+          classes.value =
+            'bg-none text-yellow-600 active:bg-yellow-100 hover:text-yellow-500 hover:bg-yellow-50 font-semibold';
+        } else {
+          classes.value =
+            'active:shadow-inner active:bg-yellow-500 bg-yellow-700 hover:bg-yellow-600';
+        }
 
-      break;
-    case 'danger':
-      if (props.text) {
-        classes.value =
-          'bg-none !text-red-600 active:bg-red-100 hover:text-red-500 hover:bg-red-50 font-semibold ';
-      } else {
-        classes.value =
-          'active:shadow-inner active:bg-red-500  bg-red-700 hover:bg-red-600';
-      }
+        break;
+      case 'danger':
+        if (props.text) {
+          classes.value =
+            'bg-none !text-red-600 active:bg-red-100 hover:text-red-500 hover:bg-red-50 font-semibold ';
+        } else {
+          classes.value =
+            'active:shadow-inner active:bg-red-500  bg-red-700 hover:bg-red-600';
+        }
 
-      break;
-    case 'success':
-      if (props.text) {
-        classes.value =
-          '!text-green-600 active:bg-green-100 hover:text-green-500 hover:bg-green-50 font-semibold ';
-      } else {
-        classes.value =
-          'active:shadow-inner active:bg-green-500 bg-green-700 hover:bg-green-600';
-      }
+        break;
+      case 'success':
+        if (props.text) {
+          classes.value =
+            '!text-green-600 active:bg-green-100 hover:text-green-500 hover:bg-green-50 font-semibold ';
+        } else {
+          classes.value =
+            'active:shadow-inner active:bg-green-500 bg-green-700 hover:bg-green-600';
+        }
 
-      break;
-    case 'plain': {
-      if (props.text) {
-        classes.value =
-          '!text-gray-600 active:bg-gray-100 hover:text-gray-500 hover:bg-gray-50 font-semibold ';
-      } else {
-        classes.value =
-          'active:shadow-inner active:bg-gray-500 bg-gray-700 hover:bg-gray-600';
+        break;
+      case 'plain': {
+        if (props.text) {
+          classes.value =
+            '!text-gray-600 active:bg-gray-100 hover:text-gray-500 hover:bg-gray-50 font-semibold ';
+        } else {
+          classes.value =
+            'active:shadow-inner active:bg-gray-500 bg-gray-700 hover:bg-gray-600';
+        }
+        break;
       }
-      break;
+      default:
+        if (props.text) {
+          classes.value =
+            'bg-none text-white active:bg-sky-100 hover:text-sky-500 hover:bg-sky-50 font-semibold';
+        } else {
+          classes.value =
+            'active:shadow-inner active:bg-sky-500 bg-sky-700 hover:bg-sky-600';
+        }
     }
-    default:
-      if (props.text) {
-        classes.value =
-          'bg-none text-white active:bg-sky-100 hover:text-sky-500 hover:bg-sky-50 font-semibold';
-      } else {
-        classes.value =
-          'active:shadow-inner active:bg-sky-500 bg-sky-700 hover:bg-sky-600';
-      }
   }
 
   switch (props.size) {

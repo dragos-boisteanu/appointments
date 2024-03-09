@@ -170,7 +170,7 @@
     <div
       :id="`tooltip${props.appointment.id}`"
       ref="appointmentDetails"
-      class="hidden w-fit max-w-[450px] overflow-hidden rounded border bg-white p-4 shadow"
+      class="hidden w-fit max-w-[500px] overflow-hidden rounded border bg-white p-4 shadow"
       :class="{ '!block': showPopover }"
     >
       <div
@@ -230,7 +230,7 @@
         </div>
       </div>
       <div
-        class="mt-3 max-h-[150px] overflow-y-scroll text-xs text-gray-400"
+        class="mt-3 max-h-[150px] overflow-y-auto text-xs text-gray-400"
       >
         {{ props.appointment.description }}
       </div>

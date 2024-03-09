@@ -27,6 +27,10 @@ import {
   TrashIcon,
   ChevronDownIcon,
   PlusIcon,
+  PhoneIcon,
+  EnvelopeIcon,
+  FunnelIcon,
+  BarsArrowDownIcon,
 } from '@heroicons/vue/20/solid';
 import UsersService from './services/usersService';
 import RolesService from './services/rolesService';
@@ -38,6 +42,7 @@ import { useAppointmentsStore } from '@/stores/appointments.js';
 
 const app = createApp(App);
 
+// GLOBAL COMPONENTS
 app.component('CustomDialog', dialog);
 app.component('TextInput', textInput);
 app.component('TextareaInput', textareaInput);
@@ -47,6 +52,7 @@ app.component('DatepickerInput', datepickerInput);
 app.component('ButtonComponent', buttonComponent);
 app.component('DropdownComponent', dropdownComponent);
 
+// ICONS
 app.component('XMarkIcon', XMarkIcon);
 app.component('PencilIcon', PencilIcon);
 app.component('XCircleIcon', XCircleIcon);
@@ -55,6 +61,10 @@ app.component('UserIcon', UserIcon);
 app.component('TrashIcon', TrashIcon);
 app.component('ChevronDownIcon', ChevronDownIcon);
 app.component('PlusIcon', PlusIcon);
+app.component('PhoneIcon', PhoneIcon);
+app.component('EnvelopeIcon', EnvelopeIcon);
+app.component('FunnelIcon', FunnelIcon);
+app.component('BarsArrowDownIcon', BarsArrowDownIcon);
 
 const pinia = createPinia();
 app.use(pinia);

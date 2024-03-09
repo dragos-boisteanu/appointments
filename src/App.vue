@@ -13,6 +13,7 @@
 
   const userStatusesStore = useUserStatusesStore();
   const appointmentsService = inject('appointmentsService');
+
   const generateUsersLists = () => {
     // Function to generate a random string for email
     function generateRandomEmail() {
@@ -248,13 +249,13 @@
 
     <div class="flex flex-1">
       <div
-        class="flex w-20 flex-shrink-0 flex-grow-0 flex-col items-center justify-center"
+        class="hidden w-20 flex-shrink-0 flex-grow-0 flex-col items-center justify-center lg:flex"
         :class="{ '!w-56': guiStore.showFullLefNavBar }"
       >
         <left-nav />
       </div>
 
-      <div class="w-full p-4">
+      <div class="w-full bg-gray-50">
         <router-view />
       </div>
     </div>
