@@ -160,7 +160,9 @@
       </button-component>
     </div>
     <div class="flex flex-1 flex-col">
-      <div class="mt-4 flex-1 overflow-auto" style="flex: 1 0 0">
+      <div
+        class="mt-4 flex-1 flex-shrink flex-grow basis-0 overflow-auto lg:flex-none"
+      >
         <div
           class="block h-full w-full grid-cols-12 content-start items-center justify-items-center lg:grid"
         >
@@ -237,19 +239,19 @@
             <div
               class="col-start-1 col-end-3 flex h-full w-full items-end gap-x-2 justify-self-start lg:col-start-7 lg:col-end-9 lg:pl-4"
             >
-              <PhoneIcon class="size-5 text-black" />
+              <PhoneIcon class="size-5 text-neutral-700" />
               <div>{{ user.details.phoneNumber }}</div>
             </div>
             <div
               class="col-start-1 col-end-3 flex h-full w-full items-end gap-x-2 justify-self-start lg:col-start-9 lg:col-end-13 lg:pl-4"
             >
-              <EnvelopeIcon class="size-5 text-black" />
+              <EnvelopeIcon class="size-5 text-neutral-700" />
               <div>{{ user.email }}</div>
             </div>
           </div>
         </div>
       </div>
-      <div style="flex: 0 1 auto">
+      <div style="flex: 0 1 auto" class="pt-2">
         <pagination-component
           :total-pages="usersService.getTotalPages()"
           :current-page="currentPage"

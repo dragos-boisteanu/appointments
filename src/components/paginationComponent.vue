@@ -68,7 +68,9 @@
 </script>
 
 <template>
-  <ul class="align-center flex w-full gap-x-2 pt-4">
+  <ul
+    class="align-center flex w-full justify-between gap-x-2 pt-4 lg:justify-start"
+  >
     <button
       class="min-w-[28px] px-1.5 py-1 disabled:text-gray-400"
       :disabled="currentPage <= minGroupsSize"
@@ -87,7 +89,7 @@
       <li
         v-for="page in firstGroupCount"
         :key="page"
-        class="align-center flex min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600"
+        class="align-center hidden min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600 lg:flex"
         :class="{
           '!border-blue-500 bg-blue-500 !text-white shadow':
             currentPage === page,
@@ -99,14 +101,14 @@
     </template>
     <div
       v-if="currentPage > 5"
-      class="min-w-[28px] self-end px-1.5 py-1"
+      class="hidden min-w-[28px] self-end px-1.5 py-1 lg:block"
     >
       ....
     </div>
     <li
       v-for="page in displayPages"
       :key="page"
-      class="align-center flex min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600"
+      class="align-center hidden min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600 lg:flex"
       :class="{
         '!border-blue-500 bg-blue-500 !text-white shadow':
           currentPage === page,
@@ -117,7 +119,7 @@
     </li>
     <div
       v-if="currentPage < totalPages - 4"
-      class="min-w-[28px] self-end px-1.5 py-1"
+      class="hidden min-w-[28px] self-end px-1.5 py-1 lg:block"
     >
       ...
     </div>
@@ -125,7 +127,7 @@
       <li
         v-for="page in lastGroup"
         :key="page"
-        class="align-center flex min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600"
+        class="align-center hidden min-w-[32px] cursor-pointer justify-center rounded border border-gray-400 px-1.5 py-1 text-gray-500 hover:border-blue-500 hover:text-blue-600 lg:flex"
         :class="{
           '!border-blue-500 bg-blue-500 !text-white shadow':
             currentPage === totalPages - page,
@@ -135,6 +137,12 @@
         {{ totalPages - page }}
       </li>
     </template>
+
+    <li
+      class="align-center flex min-w-[32px] cursor-pointer justify-center rounded border border-blue-500 bg-blue-500 px-1.5 py-1 text-white shadow hover:border-blue-500 hover:text-blue-600 lg:hidden"
+    >
+      {{ currentPage }}
+    </li>
 
     <button
       class="min-w-[28px] px-1.5 py-1 disabled:text-gray-400"
