@@ -1,13 +1,13 @@
 <script setup>
-  import { inject, reactive, ref, watch } from 'vue';
+  import { inject, ref, watch } from 'vue';
   import ButtonComponent from '../../components/buttonComponent.vue';
   import createUserDialog from '../../components/users/dialogs/createUserDialog.vue';
 
-  import { useRolesStore } from '@/stores/roles';
   import { useToast } from 'vue-toastification';
 
   import PaginationComponent from '../../components/paginationComponent.vue';
   import { useRoute, useRouter } from 'vue-router';
+  import FilterUsersDialog from '@/components/users/dialogs/filterUsersDialog.vue';
 
   const router = useRouter();
   const route = useRoute();
@@ -16,16 +16,8 @@
 
   const usersService = inject('usersService');
 
-  Object.keys(route.query).forEach((key) => {
-    if (filterData[key]) {
-      filterData[key] = route.query[key];
-    }
-  });
-
-  const usersList = ref([]);
-  const showNewUserDialog = ref(false);
-
   const currentPage = ref(1);
+  const usersList = ref([]);
 
   const getList = async (filter) => {
     const payload = Object.assign({}, filter);
@@ -47,19 +39,21 @@
     });
   };
 
-  const handlePageSelected = async (page) => {
-    currentPage.value = page;
-    await getList({
-      name: filterData.name,
-      phoneNumber: filterData.phoneNumber,
-      email: filterData.email,
-      statusId: '',
-      roleId: filterData.roleId,
-      page,
-    });
-  };
+  const showFilterDialog = ref(false);
+  const filterData = ref({
+    name: '',
+    phoneNumber: '',
+    email: '',
+    statusId: '',
+    roleId: '',
+    page: 1,
+  });
 
-  const selectRoleId = (roleId) => (filterData.roleId = roleId);
+  Object.keys(route.query).forEach((key) => {
+    if (filterData[key]) {
+      filterData[key] = route.query[key];
+    }
+  });
 
   watch(
     filterData,
@@ -72,11 +66,35 @@
     { immediate: true },
   );
 
+  const toggleFilterDialog = () =>
+    (showFilterDialog.value = !showFilterDialog.value);
+  const handleFilter = (filter) => {
+    filterData.value = filter;
+    showFilterDialog.value = false;
+  };
+
+  const handlePageSelected = async (page) => {
+    currentPage.value = page;
+    await getList({
+      name: filterData.value.name,
+      phoneNumber: filterData.value.phoneNumber,
+      email: filterData.value.email,
+      statusId: '',
+      roleId: filterData.value.roleId,
+      page,
+    });
+  };
+
+  // const selectRoleId = (roleId) => (filterData.roleId = roleId);
+
   const openUserDetails = (user) => {
     router.push({ name: 'user', params: { id: user.id } });
   };
 
   const isSavingUserLoading = ref(false);
+
+  const showNewUserDialog = ref(false);
+
   const toggleNewUserDialog = () => {
     showNewUserDialog.value = !showNewUserDialog.value;
   };
@@ -107,11 +125,18 @@
       @create="handleCreateUser"
     />
 
+    <filter-users-dialog
+      v-if="showFilterDialog"
+      :filter-data="filterData"
+      @filter="handleFilter"
+      @close="toggleFilterDialog"
+    />
+
     <div class="flex items-center justify-end gap-x-1">
       <button-component :icon="true">
         <BarsArrowDownIcon class="size-6 fill-neutral-700" />
       </button-component>
-      <button-component :icon="true">
+      <button-component :icon="true" @click="toggleFilterDialog">
         <FunnelIcon class="size-6 fill-neutral-700" />
       </button-component>
     </div>
