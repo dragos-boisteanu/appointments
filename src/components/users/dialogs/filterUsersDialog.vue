@@ -75,7 +75,9 @@
       </form>
     </template>
     <template #actions>
-      <button-component @click="close">Cancel</button-component>
+      <button-component @click="close" :text="true" type="plain"
+        >Cancel</button-component
+      >
       <button-component @click="filter">Filter</button-component>
     </template>
     <custom-dialog />
