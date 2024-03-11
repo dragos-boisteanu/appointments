@@ -3,6 +3,7 @@
   import { useRoute, useRouter } from 'vue-router';
   import ViewUserDialog from '../../components/users/dialogs/editUserDialog.vue';
   import { useToast } from 'vue-toastification';
+  import ViewUser from '@/models/user/viewUser.js';
 
   const usersService = inject('usersService');
 
@@ -10,14 +11,18 @@
   const route = useRoute();
   const router = useRouter();
 
+  const dayjs = inject('dayJS');
+
   // const user = computed(() => {
-  let user = ref(null);
+  let user = computed(() =>
+    usersService.getById(route.params.id.toString()),
+  ); /*
   try {
     user.value = usersService.getById(route.params.id.toString());
   } catch (error) {
     // console.error('userViewUser', error);
     toast.error('User not found');
-  }
+  }*/
   // return user;
   // });
 
@@ -25,7 +30,7 @@
     let userName;
 
     if (user.value) {
-      userName = `${user.value.details.firstName} ${user.value.details.lastName}`;
+      userName = `${user.value.firstName} ${user.value.lastName}`;
     } else {
       userName = 'User not found';
     }
@@ -42,15 +47,35 @@
 
     if (user.value) {
       userDetails.email = user.value.email;
-      userDetails.phoneNumber = user.value.details.phoneNumber;
-      userDetails.birthDate = user.value.details.birthDate;
+      userDetails.phoneNumber = user.value.phoneNumber;
+      userDetails.birthDate = dayjs(user.value.birthDate)
+        .format('DD/MM/YYYY')
+        .toString();
     }
 
     return userDetails;
   });
 
   const updateSelectedUser = (payload) => {
-    usersService.update(payload);
+    console.log('updateSelectedUser', payload);
+    usersService.update(
+      new ViewUser(
+        payload.id,
+        payload.email,
+        payload.firstName,
+        payload.lastName,
+        payload.phoneNumber,
+        payload.birthDate,
+        payload.description,
+        payload.statusId,
+        payload.statusName,
+        payload.roleId,
+        payload.roleName,
+        payload.roleColor,
+        payload.createdAt,
+        payload.updatedAt,
+      ),
+    );
     toggleEditUser();
     toast.success('User updated');
   };
@@ -106,9 +131,9 @@
         <div
           v-if="user"
           class="mt-2 w-fit rounded px-3 py-1 text-sm capitalize text-white shadow"
-          :class="[user.role.color]"
+          :class="[user.roleColor]"
         >
-          {{ user.role.name }}
+          {{ user.roleName }}
         </div>
       </div>
     </div>

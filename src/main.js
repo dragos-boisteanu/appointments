@@ -4,6 +4,7 @@ import router from './router';
 import { Calendar, DatePicker } from 'v-calendar';
 import Toast, { POSITION } from 'vue-toastification';
 import * as dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 import App from './App.vue';
 
@@ -76,6 +77,8 @@ const toastOptions = {
 app.use(Toast, toastOptions);
 
 app.use(router);
+
+dayjs.extend(customParseFormat);
 
 app.provide(
   'usersService',

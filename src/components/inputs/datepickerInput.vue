@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
 
   const props = defineProps({
     id: { type: String, required: false, default: '' },

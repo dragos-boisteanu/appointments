@@ -78,7 +78,7 @@
   const createdByName = computed(() => {
     let name = 'User not found';
     if (createdBy.value) {
-      name = `${createdBy.value.details.firstName} ${createdBy.value.details.lastName}`;
+      name = `${createdBy.value.firstName} ${createdBy.value.lastName}`;
     }
 
     return name;
@@ -98,7 +98,7 @@
   const assignedToName = computed(() => {
     let name = 'User not found';
     if (assignedTo.value) {
-      name = `${assignedTo.value.details.firstName} ${assignedTo.value.details.lastName}`;
+      name = `${assignedTo.value.firstName} ${assignedTo.value.lastName}`;
     }
 
     return name;
@@ -118,7 +118,7 @@
   const clientName = computed(() => {
     let name = 'User not found';
     if (client.value) {
-      name = `${client.value.details.firstName} ${client.value.details.lastName}`;
+      name = `${client.value.firstName} ${client.value.lastName}`;
     }
 
     return name;

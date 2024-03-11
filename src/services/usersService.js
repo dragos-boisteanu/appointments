@@ -34,7 +34,7 @@ export default class UsersService {
             '',
           );
 
-          return user.details.phoneNumber
+          return user.phoneNumber
             .replace(/\s/g, '')
             .includes(noSpacesNumber);
         });
@@ -51,17 +51,13 @@ export default class UsersService {
         const lowerCaseName = filterData.name.toLowerCase();
         users = users.filter(
           (user) =>
-            user.details.lastName
-              .toLowerCase()
-              .includes(lowerCaseName) ||
-            user.details.firstName
-              .toLowerCase()
-              .includes(lowerCaseName),
+            user.lastName.toLowerCase().includes(lowerCaseName) ||
+            user.firstName.toLowerCase().includes(lowerCaseName),
         );
       }
       if (filterData.roleId) {
         users = users.filter(
-          (user) => filterData.roleId === user.role.id,
+          (user) => filterData.roleId === user.roleId,
         );
       }
 

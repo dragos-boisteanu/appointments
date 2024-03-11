@@ -39,7 +39,9 @@ export const useUsersStore = defineStore('users', () => {
     const userIndex = getUserIndexById(payload.id);
 
     if (userIndex > -1) {
-      result = list.value.splice(userIndex, 1, payload);
+      list.value[userIndex] = payload;
+      result = payload;
+      // result = list.value.splice(userIndex, 1, payload);
     }
 
     return result;

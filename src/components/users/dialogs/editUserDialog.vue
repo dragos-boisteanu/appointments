@@ -15,7 +15,7 @@
 
   const user = ref(JSON.parse(JSON.stringify(props.user)));
   watch(
-    () => user.value.role.id,
+    () => user.value.roleId,
     (newValue, oldValue) => {
       if (!newValue) {
         return;
@@ -26,7 +26,8 @@
           (role) => role.id === newValue,
         );
 
-        user.value.role.name = role.name;
+        user.value.roleName = role.name;
+        user.value.roleColor = role.color;
       }
     },
   );
@@ -44,7 +45,7 @@
   const confirmationDialogTitle = ref('');
   const confirmationDialogText = ref('');
   const deleteUser = () => {
-    confirmationDialogText.value = `Are you sure you want to delete user ${user.value.details.firstName} ${user.value.details.lastName}'s account ?`;
+    confirmationDialogText.value = `Are you sure you want to delete user ${user.value.firstName} ${user.value.lastName}'s account ?`;
     confirmationDialogTitle.value = 'Delete user account';
     showDeleteConfirmationDialog.value = true;
   };
@@ -52,15 +53,14 @@
 
   const selectRole = (roleId) => {
     if (roleId) {
-      user.value.role = rolesStore.list.find(
-        (role) => role.id === roleId,
-      );
+      const role = rolesStore.list.find((role) => role.id === roleId);
+      user.value.roleId = role.id;
+      user.value.roleName = role.name;
+      user.value.roleColor = role.color;
     } else {
-      user.value.role = {
-        id: '',
-        name: '',
-        color: '',
-      };
+      user.value.roleId = '';
+      user.value.roleName = '';
+      user.value.roleColor = '';
     }
   };
 </script>
@@ -82,14 +82,14 @@
         <div class="flex items-center justify-between gap-x-8">
           <textInput
             id="firstName"
-            v-model="user.details.firstName"
+            v-model="user.firstName"
             :autofocus="true"
             name="firstName"
             label="First name"
           />
           <textInput
             id="lastName"
-            v-model="user.details.lastName"
+            v-model="user.lastName"
             name="lastName"
             label="Last name"
           />
@@ -97,7 +97,7 @@
         <div class="flex items-center justify-between gap-x-8">
           <textInput
             id="phoneNumber"
-            v-model="user.details.phoneNumber"
+            v-model="user.phoneNumber"
             name="phoneNumber"
             label="Phone Number"
           />
@@ -110,10 +110,9 @@
         </div>
 
         <div class="flex items-center justify-between gap-x-8">
-          <!--          TODO: fix date not being visible-->
           <datepickerInput
             id="birthDate"
-            v-model="user.details.birthDate"
+            v-model="user.birthDate"
             name="birthDate"
             label="Birthday"
             mode="date"
@@ -122,7 +121,7 @@
 
           <dropdownComponent
             id="role"
-            v-model="user.role.id"
+            v-model="user.roleId"
             :values="rolesStore.list"
             name-field="name"
             key-field="id"
@@ -136,7 +135,7 @@
 
         <textareaInput
           id="description"
-          v-model="user.details.description"
+          v-model="user.description"
           name="description"
           label="Description"
           placeholder="Extra info about the user"

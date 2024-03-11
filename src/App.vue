@@ -6,10 +6,12 @@
   import { useUserStatusesStore } from './stores/userStatuses';
   import { useGuiStore } from './stores/gui';
   import { inject } from 'vue';
+  import ViewUser from '@/models/user/viewUser';
 
   const usersService = inject('usersService');
   const rolesStore = useRolesStore();
   const guiStore = useGuiStore();
+  const dayJs = inject('dayJS');
 
   const userStatusesStore = useUserStatusesStore();
   const appointmentsService = inject('appointmentsService');
@@ -36,7 +38,7 @@
         2,
         '0',
       );
-      return `${day}/${month}/${year}`;
+      return new Date(day, month, year);
     }
 
     function generateRandomPhoneNumber() {
@@ -58,24 +60,23 @@
 
     // Function to generate random data for each object
     function generateRandomData(id) {
-      return {
-        id: id,
-        email: generateRandomEmail(),
-        details: {
-          firstName: 'FirstName' + id,
-          lastName: 'LastName' + id,
-          phoneNumber: generateRandomPhoneNumber(),
-          birthDate: generateRandomDate(),
-          description: '',
-        },
-        status: {
-          id: '1',
-          name: 'available',
-        },
-        role: generateRandomRole(),
-        createdAt: createdAt,
-        updatedAt: createdAt,
-      };
+      const role = generateRandomRole();
+      return new ViewUser(
+        id,
+        generateRandomEmail(),
+        'FirstName' + id,
+        'LastName' + id,
+        generateRandomPhoneNumber(),
+        generateRandomDate(),
+        '',
+        '1',
+        'available',
+        role.id,
+        role.name,
+        role.color,
+        createdAt,
+        createdAt,
+      );
     }
 
     // Generate 1000 objects

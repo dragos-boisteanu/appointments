@@ -11,6 +11,7 @@ export default class ViewUser {
   statusName = '';
   roleId = '';
   roleName = '';
+  roleColor = '';
   createdAt = '';
   updatedAt = '';
 
@@ -26,6 +27,7 @@ export default class ViewUser {
     statusName = '',
     roleId = '',
     roleName = '',
+    roleColor = '',
     createdAt = '',
     updatedAt = '',
   ) {
@@ -40,6 +42,7 @@ export default class ViewUser {
     this.statusName = statusName;
     this.roleId = roleId;
     this.roleName = roleName;
+    this.roleColor = roleColor;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

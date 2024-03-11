@@ -50,8 +50,8 @@
   });
 
   Object.keys(route.query).forEach((key) => {
-    if (filterData[key]) {
-      filterData[key] = route.query[key];
+    if (filterData.value[key]) {
+      filterData.value[key] = route.query[key];
     }
   });
 
@@ -102,7 +102,7 @@
     try {
       await usersService.add(user);
 
-      await getList(filterData);
+      await getList(filterData.value);
 
       toast.success('New user added');
       showNewUserDialog.value = false;
@@ -148,7 +148,7 @@
         <UserPlusIcon class="size-5 fill-white" />
       </button>
       <div
-        class="mt-4 flex-1 flex-shrink flex-grow basis-0 overflow-auto lg:flex-none"
+        class="mt-4 flex-1 flex-shrink flex-grow basis-0 overflow-auto"
       >
         <div
           class="block h-full w-full grid-cols-12 content-start items-center justify-items-center lg:grid"
@@ -202,16 +202,16 @@
             <div
               class="col-start-1 col-end-3 flex h-full w-full items-center justify-self-start overflow-hidden overflow-ellipsis whitespace-nowrap font-medium lg:col-start-2 lg:col-end-5 lg:font-normal"
             >
-              {{ user.details.firstName }} {{ user.details.lastName }}
+              {{ user.firstName }} {{ user.lastName }}
             </div>
             <div
               class="col-start-1 col-end-2 flex h-full w-full items-center justify-center lg:col-start-5 lg:col-end-6"
             >
               <div
                 class="w-full rounded px-3 py-1 text-center text-sm font-normal capitalize text-white lg:min-w-16 lg:max-w-28"
-                :class="user.role.color"
+                :class="user.roleColor"
               >
-                {{ user.role.name }}
+                {{ user.roleName }}
               </div>
             </div>
             <div
@@ -220,14 +220,14 @@
               <div
                 class="w-full rounded-lg p-0.5 text-center text-sm font-normal"
               >
-                {{ user.status.name }}
+                {{ user.statusName }}
               </div>
             </div>
             <div
               class="col-start-1 col-end-3 flex h-full w-full items-end gap-x-2 justify-self-start lg:col-start-7 lg:col-end-9 lg:pl-4"
             >
               <PhoneIcon class="size-5 text-neutral-700" />
-              <div>{{ user.details.phoneNumber }}</div>
+              <div>{{ user.phoneNumber }}</div>
             </div>
             <div
               class="col-start-1 col-end-3 flex h-full w-full items-end gap-x-2 justify-self-start lg:col-start-9 lg:col-end-13 lg:pl-4"
