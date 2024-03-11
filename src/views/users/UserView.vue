@@ -71,7 +71,7 @@
 </script>
 
 <template>
-  <div class="h-full w-full">
+  <div class="size-full p-4">
     <view-user-dialog
       v-if="showEditUser"
       :ignore-click-outside="true"
@@ -124,7 +124,7 @@
         <div class="font-semibold capitalize">
           {{ key }}
         </div>
-        <div class="text-neutral-500">{{ item }}</div>
+        <div class="min-w-32 text-neutral-500">{{ item }}</div>
       </div>
     </div>
   </div>
