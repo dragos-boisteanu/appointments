@@ -148,13 +148,13 @@
         <UserPlusIcon class="size-5 fill-white" />
       </button>
       <div
-        class="mt-4 flex-1 flex-shrink flex-grow basis-0 overflow-auto"
+        class="mt-4 flex flex-1 flex-shrink flex-grow basis-0 flex-col"
       >
         <div
-          class="block h-full w-full grid-cols-12 content-start items-center justify-items-center lg:grid"
+          class="block h-full w-full flex-1 basis-0 grid-cols-12 content-start items-center justify-items-center overflow-y-auto lg:grid"
         >
           <div
-            class="col-start-1 col-end-13 hidden grid-cols-12 justify-items-center self-stretch justify-self-stretch border-b-2 p-4 align-middle lg:grid"
+            class="font- sticky top-0 col-start-1 col-end-13 hidden grid-cols-12 justify-items-center self-stretch justify-self-stretch border-b-2 bg-gray-50 p-4 align-middle lg:grid"
           >
             <div
               class="col-start-1 col-end-2 flex h-full w-full items-center pl-4 font-medium"
