@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="flex h-full w-full flex-col items-center bg-neutral-900 py-10 text-sm text-zinc-400 md:items-start md:px-2.5"
+    class="flex h-full w-full flex-col items-center bg-neutral-900 py-10 pl-[17px] text-sm text-zinc-400"
     :class="{ '!items-center !px-0': !guiStore.showFullLefNavBar }"
   >
     <li
@@ -10,7 +10,7 @@
       :class="{ 'md:self-stretch': guiStore.showFullLefNavBar }"
     >
       <router-link
-        class="flex w-full items-center gap-x-2 rounded p-3"
+        class="flex w-full items-center gap-x-4 rounded p-3"
         exact-active-class="bg-neutral-800 text-zinc-200"
         :to="{ name: navLink.name }"
       >
