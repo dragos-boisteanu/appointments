@@ -5,12 +5,13 @@ import { Calendar, DatePicker } from 'v-calendar';
 import Toast, { POSITION } from 'vue-toastification';
 import * as dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-
 import App from './App.vue';
+import EventsCalendar from 'vue3-events-calendar';
 
 import './assets/style.css';
 import 'vue-toastification/dist/index.css';
 import 'v-calendar/dist/style.css';
+import 'vue3-events-calendar/dist/style.css';
 
 import dialog from './components/dialogs/customDialog.vue';
 import buttonComponent from './components/buttonComponent.vue';
@@ -69,6 +70,8 @@ app.component('BarsArrowDownIcon', BarsArrowDownIcon);
 
 const pinia = createPinia();
 app.use(pinia);
+
+app.use(EventsCalendar);
 
 const toastOptions = {
   position: POSITION.BOTTOM_LEFT,

@@ -11,7 +11,6 @@
   const usersService = inject('usersService');
   const rolesStore = useRolesStore();
   const guiStore = useGuiStore();
-  const dayJs = inject('dayJS');
 
   const userStatusesStore = useUserStatusesStore();
   const appointmentsService = inject('appointmentsService');
