@@ -63,6 +63,15 @@
             label="Duration"
           />
         </div>
+
+        <div class="flex items-center gap-x-2">
+          <input
+            id="allDay"
+            type="checkbox"
+            v-model="appointment.allDay"
+          />
+          <label for="allDay" class="text-sm">All day event</label>
+        </div>
       </form>
     </template>
     <template #actions>
