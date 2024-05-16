@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { computed, inject, ref } from 'vue';
-  import appointment from '../../components/appointments/appointmentComponent.vue';
+  import { inject, ref } from 'vue';
+  // import appointment from '../../components/appointments/appointmentComponent.vue';
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
   import { useToast } from 'vue-toastification';
@@ -8,27 +8,36 @@
 
   const appointmentsService = inject('appointmentsService');
   const toast = useToast();
-  const masks = ref({
-    weekdays: 'WWW',
-  });
+  // const masks = ref({
+  //   weekdays: 'WWW',
+  // });
 
-  const appointments = ref(appointmentsService.getList());
-  const attributes = computed(() => {
-    console.log('appointments');
-    return appointments.value.map((appointment) => {
-      return {
-        key: appointment.id,
-        customData: appointment,
-        popover: true,
-        dates: appointment.date,
-      };
-    });
-  });
+  const events = [
+    {
+      id: 1,
+      date: new Date(),
+      title: 'Today event',
+    },
+    {
+      id: 2,
+      date: new Date(),
+      title: '2nd today event',
+    },
+    {
+      id: 3,
+      date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      title: 'Tomorrow event',
+    },
+    {
+      id: 4,
+      date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      title: 'Tomorrow all day event',
+      allDay: true,
+    },
+  ];
 
   const selectedAppointment = ref(null);
 
-  const showEditAppointmentDialog = (appointment) =>
-    (selectedAppointment.value = appointment);
   const editAppointment = (appointment) => {
     appointmentsService.edit(appointment);
     selectedAppointment.value = null;
@@ -100,40 +109,15 @@
     </button>
     <div class="flex flex-1 flex-col">
       <div
-        class="mt-4 flex flex-col flex-1 overflow-hidden"
+        class="mt-4 flex flex-1 flex-col overflow-hidden"
         id="appointments-calendar"
         style="flex: 1 0 0"
       >
-        <VCalendar
-          class="!w-full"
-          :masks="masks"
-          :attributes="attributes"
-          :trim-weeks="true"
-          :first-day-of-week="2"
-          disable-page-swipe
-          is-expanded
-        >
-          <template #day-content="{ day, attributes }">
-            <div
-              class="z-10 flex h-full flex-col overflow-hidden rounded border p-1"
-            >
-              <div
-                class="p-1 text-center text-sm font-medium text-gray-800"
-              >
-                {{ day.day }}
-              </div>
-              <div class="flex-grow overflow-x-auto overflow-y-auto">
-                <appointment
-                  v-for="attr in attributes"
-                  :key="attr.key"
-                  :appointment="attr.customData"
-                  @edit="showEditAppointmentDialog"
-                  @delete="toggleDeleteConfirmation"
-                />
-              </div>
-            </div>
-          </template>
-        </VCalendar>
+        <EventsCalendar :events="events" v-slot="{ event }">
+          <div>
+            {{ event.title }}
+          </div>
+        </EventsCalendar>
       </div>
     </div>
   </div>
@@ -141,7 +125,7 @@
 
 <style scoped>
   :deep(.vc-container) {
-    flex: 1 1 0
+    flex: 1 1 0;
   }
   :deep(#appointments-calendar .vc-week) {
     margin: 8px 0 8px 0;
