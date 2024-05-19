@@ -1,18 +1,20 @@
 <script setup lang="ts">
-  import { inject, ref } from 'vue';
+  import { inject, ref, toRaw } from 'vue';
   // import appointment from '../../components/appointments/appointmentComponent.vue';
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
   import { useToast } from 'vue-toastification';
   import CreateAppointmentDialog from '@/components/appointments/dialogs/createAppointmentDialog.vue';
+  import { useAppointmentsStore } from '@/stores/appointments';
 
   const appointmentsService = inject('appointmentsService');
   const toast = useToast();
+  const appointmentsStore = useAppointmentsStore();
   // const masks = ref({
   //   weekdays: 'WWW',
   // });
 
-  const events = [
+  appointmentsStore.set([
     {
       id: 1,
       date: new Date(),
@@ -34,8 +36,7 @@
       title: 'Tomorrow all day event',
       allDay: true,
     },
-  ];
-
+  ]);
   const selectedAppointment = ref(null);
 
   const editAppointment = (appointment) => {
@@ -79,6 +80,10 @@
     toggleCreateAppointmentDialog();
     toast.success('Appointment created');
   };
+
+  const handleEventClick = (event) => {
+    console.log('handleEventClick', toRaw(event));
+  };
 </script>
 
 <template>
@@ -109,12 +114,18 @@
     </button>
     <div class="flex flex-1 flex-col">
       <div
-        class="mt-4 flex flex-1 flex-col overflow-hidden"
+        class="flex flex-1 flex-col bg-white"
         id="appointments-calendar"
         style="flex: 1 0 0"
       >
-        <EventsCalendar :events="events" v-slot="{ event }">
-          <div>
+        <EventsCalendar
+          :events="appointmentsStore.list"
+          v-slot="{ event }"
+        >
+          <div
+            @click="handleEventClick(event)"
+            class="rounded bg-orange-700 p-1 text-xs text-white hover:cursor-pointer hover:bg-orange-600 hover:shadow active:shadow-inner"
+          >
             {{ event.title }}
           </div>
         </EventsCalendar>
@@ -124,18 +135,7 @@
 </template>
 
 <style scoped>
-  :deep(.vc-container) {
-    flex: 1 1 0;
-  }
-  :deep(#appointments-calendar .vc-week) {
-    margin: 8px 0 8px 0;
-    column-gap: 8px;
-    min-height: 64px;
-    max-height: 128px;
-  }
-
-  :deep(#appointments-calendar .vc-day) {
-    position: unset;
-    z-index: unset;
+  :deep(.calendar__navigation) > * {
+    @apply rounded bg-sky-600 px-2 py-1 text-sm text-white;
   }
 </style>

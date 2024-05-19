@@ -18,10 +18,12 @@ export default class AppointmentsService {
     const list = this.#appointmentsRepository.getList();
     let id = 1;
     if (list.length) {
-      id = list.at(-1);
+      id = list.at(-1).id;
     }
 
     appointment.id = id;
+
+    console.log('appointment', appointment);
     this.#appointmentsRepository.add(appointment);
   };
   /**
