@@ -17,7 +17,21 @@
 
   const durations = [15, 30, 45, 60, 90, 120];
 
-  const save = () => emit('save', toRaw(appointment));
+  const save = () => {
+    const appointmentDate = new Date(appointment.date);
+    appointmentDate.setMinutes(
+      appointmentDate.getMinutes() + appointment.duration,
+    );
+    appointment.endDate = appointmentDate;
+    appointment.date = new Date(appointment.date);
+
+    if (!appointment.duration) {
+      appointment.duration = durations[0];
+    }
+
+    appointment.bgColor = 'orange';
+    emit('save', toRaw(appointment));
+  };
 </script>
 
 <template>

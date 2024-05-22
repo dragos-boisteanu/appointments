@@ -2,10 +2,10 @@
   import {
     computed,
     inject,
-    onMounted,
     onUnmounted,
     ref,
     toRaw,
+    watch,
   } from 'vue';
   import { createPopper } from '@popperjs/core';
   import { vOnClickOutside } from '@vueuse/components';
@@ -23,45 +23,46 @@
 
   const toast = useToast();
   const usersService = inject('usersService');
-  const showPopover = ref(false);
   const router = useRouter();
 
-  let popcorn;
-  let tooltip;
-  let popperInstance;
+  const popperInstance = ref(null);
+  const showPopover = ref(false);
 
-  onMounted(() => {
-    popcorn = document.getElementById(
-      `appointment${props.appointment.id}`,
-    );
-    tooltip = document.getElementById(
-      `tooltip${props.appointment.id}`,
-    );
+  watch(showPopover, (value) => {
+    if (value) {
+      const popcorn = document.getElementById(
+        `appointment${props.appointment.id}`,
+      );
+      const tooltip = document.getElementById(
+        `tooltip${props.appointment.id}`,
+      );
 
-    popperInstance = createPopper(popcorn, tooltip, {
-      placement: 'right-start',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 8],
+      console.log('popperInstance', popperInstance.value);
+      popperInstance.value = createPopper(popcorn, tooltip, {
+        placement: 'right-start',
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
+    } else {
+      popperInstance.value.destroy();
+    }
   });
 
   onUnmounted(() => {
-    popperInstance.destroy();
+    if (popperInstance.value) popperInstance.value.destroy();
   });
 
   const startTime = computed(() => {
     return dayjs(props.appointment.date).format('HH:mm');
   });
   const endTime = computed(() => {
-    return dayjs(props.appointment.date)
-      .add(props.appointment.duration, 'minutes')
-      .format('HH:mm');
+    return dayjs(props.appointment.endDate).format('HH:mm');
   });
 
   const createdBy = computed(() => {
@@ -131,11 +132,9 @@
     router.push({ name: 'user', params: { id } });
   };
   const togglePopover = () => {
-    showPopover.value = !showPopover.value;
+    //  TODO: find why showPopover doesn't add the class for newly created appointments
 
-    if (showPopover.value) {
-      popperInstance.update();
-    }
+    showPopover.value = !showPopover.value;
   };
 
   const appointmentDetails = ref(null);
@@ -152,6 +151,8 @@
 
   const deleteAppointment = () =>
     emit('delete', toRaw(props.appointment));
+
+  const style = ref({ backgroundColor: props.appointment.bgColor });
 </script>
 
 <template>
@@ -159,8 +160,7 @@
     :id="`appointment${props.appointment.id}`"
     v-on-click-outside="closePopover"
     class="mb-1 mt-0 cursor-pointer rounded-sm p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
-    :style="`background-color:
-    ${props.appointment.color}`"
+    :style="style"
     @click="togglePopover"
   >
     <span class="italic">{{ startTime }}</span>
@@ -170,7 +170,7 @@
     <div
       :id="`tooltip${props.appointment.id}`"
       ref="appointmentDetails"
-      class="hidden w-fit max-w-[500px] overflow-hidden rounded border bg-white p-4 shadow"
+      class="hidden w-fit min-w-80 max-w-[500px] overflow-hidden rounded border bg-white p-4 shadow"
       :class="{ '!block': showPopover }"
     >
       <div

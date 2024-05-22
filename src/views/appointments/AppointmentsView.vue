@@ -6,6 +6,7 @@
   import { useToast } from 'vue-toastification';
   import CreateAppointmentDialog from '@/components/appointments/dialogs/createAppointmentDialog.vue';
   import { useAppointmentsStore } from '@/stores/appointments';
+  import AppointmentComponent from '@/components/appointments/appointmentComponent.vue';
 
   const appointmentsService = inject('appointmentsService');
   const toast = useToast();
@@ -19,22 +20,26 @@
       id: 1,
       date: new Date(),
       title: 'Today event',
+      bgColor: 'orange',
     },
     {
       id: 2,
       date: new Date(),
       title: '2nd today event',
+      bgColor: 'orange',
     },
     {
       id: 3,
       date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       title: 'Tomorrow event',
+      bgColor: 'orange',
     },
     {
       id: 4,
       date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       title: 'Tomorrow all day event',
       allDay: true,
+      bgColor: 'orange',
     },
   ]);
   const selectedAppointment = ref(null);
@@ -50,6 +55,9 @@
   const confirmationDialogTitle = ref('');
   const confirmationDialogText = ref('');
   const appointedToDelete = ref(null);
+  const showEditAppointmentDialog = (appointment) => {
+    selectedAppointment.value = appointment;
+  };
   const toggleDeleteConfirmation = (appointment) => {
     if (showDeleteConfirmationDialog.value) {
       showDeleteConfirmationDialog.value = false;
@@ -79,10 +87,6 @@
     appointmentsService.add(appointment);
     toggleCreateAppointmentDialog();
     toast.success('Appointment created');
-  };
-
-  const handleEventClick = (event) => {
-    console.log('handleEventClick', toRaw(event));
   };
 </script>
 
@@ -122,12 +126,18 @@
           :events="appointmentsStore.list"
           v-slot="{ event }"
         >
-          <div
+          <appointment-component
+            :appointment="event"
+            @edit="showEditAppointmentDialog"
+            @delete="toggleDeleteConfirmation"
+          />
+          <!--          <div
             @click="handleEventClick(event)"
-            class="rounded bg-orange-700 p-1 text-xs text-white hover:cursor-pointer hover:bg-orange-600 hover:shadow active:shadow-inner"
+            class="rounded bg-orange-700 p-1 text-xs text-white hover:cursor-pointer hover:orange hover:shadow active:shadow-inner"
           >
             {{ event.title }}
-          </div>
+            {{ event.endDate }}
+          </div>-->
         </EventsCalendar>
       </div>
     </div>

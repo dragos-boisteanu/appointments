@@ -5,6 +5,7 @@ export default class Appointment {
   title = '';
   description = '';
   date = '';
+  endDate = '';
   allDay = false;
   color = '';
   duration = '';
@@ -21,6 +22,7 @@ export default class Appointment {
    * @param {string} title
    * @param {string?} description
    * @param {string} date
+   * @param {string} endDate
    * @param {Boolean} allDay
    * @param {string} color
    * @param {string} duration
@@ -36,6 +38,7 @@ export default class Appointment {
     title = '',
     description = '',
     date = '',
+    endDate = '',
     allDay = false,
     color = '',
     duration = '',
@@ -51,6 +54,7 @@ export default class Appointment {
     this.description = description;
     this.allDay = allDay;
     this.date = date;
+    this.endDate = endDate;
     this.color = color;
     this.duration = duration;
     this.createdBy = createdBy;
