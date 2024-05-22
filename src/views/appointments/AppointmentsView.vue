@@ -118,7 +118,7 @@
     </button>
     <div class="flex flex-1 flex-col">
       <div
-        class="flex flex-1 flex-col bg-white"
+        class="flex flex-1 flex-col overflow-hidden bg-white"
         id="appointments-calendar"
         style="flex: 1 0 0"
       >
