@@ -158,13 +158,13 @@
   <p
     :id="`appointment${props.appointment.id}`"
     v-on-click-outside="closePopover"
-    class="mb-1 mt-0 cursor-pointer rounded-sm p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
+    class="mb-1 mt-0 flex cursor-pointer items-center gap-x-1 rounded-sm bg-orange-500 p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
     :style="`background-color:
-    ${props.appointment.color}`"
+  ${props.appointment.color}`"
     @click="togglePopover"
   >
     <span class="italic">{{ startTime }}</span>
-    {{ props.appointment.title }}
+    <span>{{ props.appointment.title }}</span>
   </p>
   <Teleport to="body">
     <div

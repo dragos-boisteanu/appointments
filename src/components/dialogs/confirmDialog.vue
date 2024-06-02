@@ -17,7 +17,7 @@
 <template>
   <custom-dialog @close="close()" width="500px">
     <template #header>{{ props.title }}</template>
-    <template #content> {{ props.text }}</template>
+    <template #content> <span v-html="props.text" /></template>
     <template #actions>
       <button-component :text="true" type="plain" @click="close()"
         >Cancel</button-component

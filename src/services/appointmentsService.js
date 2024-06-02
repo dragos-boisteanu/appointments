@@ -18,7 +18,7 @@ export default class AppointmentsService {
     const list = this.#appointmentsRepository.getList();
     let id = 1;
     if (list.length) {
-      id = list.at(-1).id;
+      id = list.at(-1).id++;
     }
 
     appointment.id = id;

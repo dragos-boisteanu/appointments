@@ -5,19 +5,30 @@
   import TextareaInput from '@/components/inputs/texareaInput.vue';
   import TextInput from '@/components/inputs/textInput.vue';
   import { reactive, toRaw } from 'vue';
+  import ColorPickerComponent from '@/components/inputs/colorPickerComponent.vue';
 
   const emit = defineEmits(['save', 'close']);
   const props = defineProps({
     isLoading: { type: Boolean, required: false, default: false },
   });
+  const generateRandomColor = () => {
+    let color =
+      '#' +
+      ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
 
-  const close = () => emit('close');
+    if (color === '#ffffff' || color === '#fff') {
+      color = generateRandomColor();
+    }
 
-  const appointment = reactive(new Appointment());
-
+    return color;
+  };
   const durations = [15, 30, 45, 60, 90, 120];
 
+  const appointment = reactive(new Appointment());
+  appointment.color = generateRandomColor();
+
   const save = () => emit('save', toRaw(appointment));
+  const close = () => emit('close');
 </script>
 
 <template>
@@ -25,27 +36,27 @@
     <template #header>Create appointment</template>
     <template #content>
       <form class="flex flex-col gap-y-2">
-        <text-input
-          id="title"
-          label="Title"
-          v-model="appointment.title"
-          name="title"
-        />
+        <div class="flex items-center gap-x-2">
+          <text-input
+            id="title"
+            label="Title"
+            v-model="appointment.title"
+            name="title"
+          />
+
+          <color-picker-component
+            id="color"
+            label="Color"
+            name="Color"
+            v-model="appointment.color"
+          />
+        </div>
         <textarea-input
           id="description"
           label="Description"
           v-model="appointment.description"
           name="description"
         />
-
-        <!--        <div class="flex items-center justify-between gap-x-8">
-          <dropdown-component
-            value-field="id"
-            name-field=""
-            key-field=""
-            :values="users"
-          />
-        </div>-->
 
         <div class="flex items-center justify-between gap-x-8">
           <datepickerInput

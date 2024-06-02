@@ -1,11 +1,12 @@
 <script setup lang="ts">
-  import { inject, ref, toRaw } from 'vue';
+  import { inject, ref } from 'vue';
   // import appointment from '../../components/appointments/appointmentComponent.vue';
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
   import { useToast } from 'vue-toastification';
   import CreateAppointmentDialog from '@/components/appointments/dialogs/createAppointmentDialog.vue';
   import { useAppointmentsStore } from '@/stores/appointments';
+  import AppointmentComponent from '@/components/appointments/appointmentComponent.vue';
 
   const appointmentsService = inject('appointmentsService');
   const toast = useToast();
@@ -50,6 +51,7 @@
   const confirmationDialogTitle = ref('');
   const confirmationDialogText = ref('');
   const appointedToDelete = ref(null);
+
   const toggleDeleteConfirmation = (appointment) => {
     if (showDeleteConfirmationDialog.value) {
       showDeleteConfirmationDialog.value = false;
@@ -57,10 +59,13 @@
     } else {
       appointedToDelete.value = appointment;
       confirmationDialogText.value = `Are you sure you want to delete appointment
-      ${appointment.title} ?`;
+      <strong>${appointment.title}</strong> ?`;
       confirmationDialogTitle.value = 'Delete user account';
       showDeleteConfirmationDialog.value = true;
     }
+  };
+  const handleEditAppointment = (appointment) => {
+    selectedAppointment.value = appointment;
   };
   const deleteAppointment = () => {
     console.log('deleteAppointment', appointedToDelete.value.id);
@@ -79,10 +84,6 @@
     appointmentsService.add(appointment);
     toggleCreateAppointmentDialog();
     toast.success('Appointment created');
-  };
-
-  const handleEventClick = (event) => {
-    console.log('handleEventClick', toRaw(event));
   };
 </script>
 
@@ -122,12 +123,11 @@
           :events="appointmentsStore.list"
           v-slot="{ event }"
         >
-          <div
-            @click="handleEventClick(event)"
-            class="rounded bg-orange-700 p-1 text-xs text-white hover:cursor-pointer hover:bg-orange-600 hover:shadow active:shadow-inner"
-          >
-            {{ event.title }}
-          </div>
+          <appointment-component
+            :appointment="event"
+            @edit="handleEditAppointment"
+            @delete="toggleDeleteConfirmation"
+          />
         </EventsCalendar>
       </div>
     </div>

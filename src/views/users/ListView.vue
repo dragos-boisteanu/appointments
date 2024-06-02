@@ -238,7 +238,7 @@
           </div>
         </div>
       </div>
-      <div style="flex: 0 1 auto" class="pt-2">
+      <div style="flex: 0 1 auto" class="pt-2git status">
         <pagination-component
           :total-pages="usersService.getTotalPages()"
           :current-page="currentPage"
