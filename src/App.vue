@@ -250,7 +250,7 @@
     <div class="flex flex-1">
       <div
         class="hidden w-20 flex-shrink-0 flex-grow-0 flex-col items-center justify-center lg:flex"
-        :class="{ '!w-56': guiStore.showFullLefNavBar }"
+        :class="{ '!w-56 ': guiStore.showFullLefNavBar }"
       >
         <left-nav />
       </div>

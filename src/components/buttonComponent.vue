@@ -35,7 +35,7 @@
 
   if (props.icon) {
     classes.value =
-      'bg-transparent hover:[&>*]:fill-neutral-600 active:[&>*]:fill-neutral-500';
+      'bg-transparent  hover:[&>*]:fill-neutral-600 active:[&>*]:fill-neutral-500';
   } else {
     switch (props.type) {
       case 'warning':

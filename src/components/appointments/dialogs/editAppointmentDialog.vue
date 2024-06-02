@@ -4,6 +4,7 @@
   import { ref, toRaw } from 'vue';
   import TextareaInput from '../../inputs/texareaInput.vue';
   import SelectInput from '@/components/inputs/selectInput.vue';
+  import ColorPickerComponent from '@/components/inputs/colorPickerComponent.vue';
 
   const props = defineProps({
     appointment: { type: Object, required: true },
@@ -28,12 +29,22 @@
     <template #header>Edit appointment</template>
     <template #content>
       <form class="flex flex-col gap-y-2">
-        <text-input
-          id="title"
-          label="Title"
-          v-model="appointment.title"
-          name="title"
-        />
+        <div class="flex items-center gap-x-2">
+          <text-input
+            id="title"
+            label="Title"
+            v-model="appointment.title"
+            name="title"
+          />
+
+          <color-picker-component
+            id="color"
+            label="Color"
+            name="Color"
+            v-model="appointment.color"
+          />
+        </div>
+
         <textarea-input
           id="description"
           label="Descroption"

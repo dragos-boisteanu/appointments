@@ -20,22 +20,26 @@
       id: 1,
       date: new Date(),
       title: 'Today event',
+      color: '#CF3476',
     },
     {
       id: 2,
       date: new Date(),
       title: '2nd today event',
+      color: '#E55137',
     },
     {
       id: 3,
       date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       title: 'Tomorrow event',
+      color: '#2F353B',
     },
     {
       id: 4,
       date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       title: 'Tomorrow all day event',
       allDay: true,
+      color: '#35682D',
     },
   ]);
   const selectedAppointment = ref(null);

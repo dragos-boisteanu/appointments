@@ -29,6 +29,7 @@ export const useAppointmentsStore = defineStore(
     };
 
     const update = (payload) => {
+      console.log('updatePayload', payload);
       const appointmentIndex = list.value.findIndex(
         (appointment) => appointment.id === payload.id,
       );

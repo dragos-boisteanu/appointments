@@ -132,21 +132,25 @@
       @close="toggleFilterDialog"
     />
 
-    <div class="flex items-center justify-end gap-x-1">
-      <button-component :icon="true">
-        <BarsArrowDownIcon class="size-6 fill-neutral-700" />
-      </button-component>
-      <button-component :icon="true" @click="toggleFilterDialog">
-        <FunnelIcon class="size-6 fill-neutral-700" />
-      </button-component>
-    </div>
-    <div class="relative flex flex-1 flex-col">
-      <button
+    <div class="flex items-center justify-between">
+      <button-component
+        class="!bg-sky-700"
+        :icon="true"
         @click="toggleNewUserDialog"
-        class="fixed bottom-5 right-10 z-10 rounded-full bg-sky-600 p-3 shadow hover:bg-sky-500 active:bg-sky-700 active:shadow-inner"
       >
         <UserPlusIcon class="size-5 fill-white" />
-      </button>
+      </button-component>
+
+      <div class="flex items-center gap-x-2">
+        <button-component :icon="true">
+          <BarsArrowDownIcon class="size-6 fill-neutral-700" />
+        </button-component>
+        <button-component :icon="true" @click="toggleFilterDialog">
+          <FunnelIcon class="size-6 fill-neutral-700" />
+        </button-component>
+      </div>
+    </div>
+    <div class="relative flex flex-1 flex-col">
       <div
         class="mt-4 flex flex-1 flex-shrink flex-grow basis-0 flex-col"
       >

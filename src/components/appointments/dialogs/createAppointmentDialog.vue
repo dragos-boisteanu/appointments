@@ -6,28 +6,32 @@
   import TextInput from '@/components/inputs/textInput.vue';
   import { reactive, toRaw } from 'vue';
   import ColorPickerComponent from '@/components/inputs/colorPickerComponent.vue';
+  import generateRandomColor from '@/helpers/generateRandomColor.js';
 
   const emit = defineEmits(['save', 'close']);
   const props = defineProps({
     isLoading: { type: Boolean, required: false, default: false },
   });
-  const generateRandomColor = () => {
-    let color =
-      '#' +
-      ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
 
-    if (color === '#ffffff' || color === '#fff') {
-      color = generateRandomColor();
-    }
-
-    return color;
-  };
   const durations = [15, 30, 45, 60, 90, 120];
-
   const appointment = reactive(new Appointment());
   appointment.color = generateRandomColor();
 
-  const save = () => emit('save', toRaw(appointment));
+  const save = () => {
+    const appointmentDate = new Date(appointment.date);
+    appointmentDate.setMinutes(
+      appointmentDate.getMinutes() + appointment.duration,
+    );
+    appointment.endDate = appointmentDate;
+    appointment.date = new Date(appointment.date);
+
+    if (!appointment.duration) {
+      appointment.duration = durations[0];
+    }
+
+    emit('save', toRaw(appointment));
+  };
+
   const close = () => emit('close');
 </script>
 
