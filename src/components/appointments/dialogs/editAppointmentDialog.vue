@@ -1,7 +1,7 @@
 <script setup>
   import CustomDialog from '../../dialogs/customDialog.vue';
   import TextInput from '../../inputs/textInput.vue';
-  import { ref, toRaw } from 'vue';
+  import { reactive, toRaw } from 'vue';
   import TextareaInput from '../../inputs/texareaInput.vue';
   import SelectInput from '@/components/inputs/selectInput.vue';
   import ColorPickerComponent from '@/components/inputs/colorPickerComponent.vue';
@@ -15,13 +15,26 @@
 
   const close = () => emit('close');
 
-  const appointment = ref(
+  const appointment = reactive(
     JSON.parse(JSON.stringify(props.appointment)),
   );
 
   const durations = [15, 30, 45, 60, 90, 120];
 
-  const save = () => emit('save', toRaw(appointment.value));
+  const save = () => {
+    const appointmentDate = new Date(appointment.date);
+    appointmentDate.setMinutes(
+      appointmentDate.getMinutes() + appointment.duration,
+    );
+    appointment.endDate = appointmentDate;
+    appointment.date = new Date(appointment.date);
+
+    if (!appointment.duration) {
+      appointment.duration = durations[0];
+    }
+
+    emit('save', toRaw(appointment));
+  };
 </script>
 
 <template>
@@ -47,7 +60,7 @@
 
         <textarea-input
           id="description"
-          label="Descroption"
+          label="Description"
           v-model="appointment.description"
           name="description"
         />
