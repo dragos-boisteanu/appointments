@@ -58,9 +58,17 @@
   });
 
   const startTime = computed(() => {
+    if (props.appointment.allDay) {
+      return '';
+    }
+
     return dayjs(props.appointment.date).format('HH:mm');
   });
   const endTime = computed(() => {
+    if (props.appointment.allDay) {
+      return '';
+    }
+
     return dayjs(props.appointment.endDate).format('HH:mm');
   });
 
@@ -157,16 +165,20 @@
 </script>
 
 <template>
-  <p
+  <div
     :id="`appointment${props.appointment.id}`"
     v-on-click-outside="closePopover"
-    class="mb-1 mt-0 flex  cursor-pointer items-start gap-x-1 rounded-sm bg-orange-500 p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
+    class="mb-1 mt-0 flex cursor-pointer items-start gap-x-1 rounded-sm bg-orange-500 p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
     :style="style"
     @click="togglePopover"
   >
-    <span class="italic">{{ startTime }}</span>
+    <div class="inline-block min-w-11 italic">
+      <span v-if="props.appointment.allDay">All day</span>
+      <span> {{ startTime }}</span>
+    </div>
+
     <span>{{ props.appointment.title }}</span>
-  </p>
+  </div>
   <Teleport to="body">
     <div
       :id="`tooltip${props.appointment.id}`"
@@ -196,9 +208,14 @@
         </div>
       </div>
       <div class="my-2 text-xs italic">
-        <span>Scheduled at</span> {{ startTime }}
-        <span>Ends At</span>
-        {{ endTime }}
+        <template v-if="props.appointment.allDay">
+          <span>Scheduled at</span> {{ startTime }}
+          <span>Ends At</span>
+          <span>{{ endTime }}</span>
+        </template>
+        <template v-else>
+          <span>All day</span>
+        </template>
       </div>
       <div class="flex items-center gap-x-4">
         <div>

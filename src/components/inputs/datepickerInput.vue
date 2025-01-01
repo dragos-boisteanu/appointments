@@ -9,12 +9,12 @@
     <VDatepicker
       v-model="date"
       :popover="{ visibility: 'click' }"
-      :masks="{ input: 'DD/MM/YYYY' }"
+      :masks="{ input: 'DD/MM/YYYY ' }"
       :update-on-input="false"
       :model-config="modelConfig"
       :input-debounce="500"
       :mode="mode"
-      :is24hr="true"
+      :is24hr="is24hr"
       color="blue"
       title-position="left"
     >
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-  import { computed, inject, ref } from 'vue';
+  import { computed, ref } from 'vue';
 
   const props = defineProps({
     id: { type: String, required: false, default: '' },
@@ -67,7 +67,6 @@
     label: { type: String, required: false, default: '' },
     placeholder: { type: String, required: false, default: '' },
     errorMessage: { type: String, required: false, default: '' },
-
     mode: {
       type: String,
       required: true,
@@ -76,6 +75,7 @@
       },
     },
 
+    is24hr: { type: Boolean, required: false, default: true },
     disabled: { type: Boolean, required: false, default: false },
     valid: { type: Boolean, required: false, default: false },
     hideError: { type: Boolean, required: false, default: false },
