@@ -37,7 +37,6 @@
         `tooltip${props.appointment.id}`,
       );
 
-      console.log('popperInstance', popperInstance.value);
       popperInstance.value = createPopper(popcorn, tooltip, {
         placement: 'right-start',
         modifiers: [
@@ -161,7 +160,7 @@
   <p
     :id="`appointment${props.appointment.id}`"
     v-on-click-outside="closePopover"
-    class="mb-1 mt-0 flex cursor-pointer items-center gap-x-1 rounded-sm bg-orange-500 p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
+    class="mb-1 mt-0 flex  cursor-pointer items-start gap-x-1 rounded-sm bg-orange-500 p-1 text-xs leading-tight text-white hover:shadow hover:brightness-110"
     :style="style"
     @click="togglePopover"
   >
