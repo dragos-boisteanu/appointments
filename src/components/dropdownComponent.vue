@@ -85,8 +85,15 @@
     if (inputElement.value.trim() === '') {
       foundValues.value = props.values;
     } else {
+      const lowerCaseInput = inputElement.value
+        .toLowerCase()
+        .replace(/\s/g, '');
+
       foundValues.value = props.values.filter((value) =>
-        value[props.nameField].includes(inputElement.value),
+        value[props.nameField]
+          .toLowerCase()
+          .replace(/\s/g, '')
+          .includes(lowerCaseInput),
       );
     }
   };
