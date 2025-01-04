@@ -4,6 +4,7 @@
 
   const props = defineProps({
     values: { type: Array, required: true },
+    value: { type: String, required: false, default: '' },
 
     keyField: { type: String, required: true },
     nameField: { type: String, required: true },
@@ -20,7 +21,6 @@
   });
   const emit = defineEmits(['select']);
 
-  const model = defineModel();
   const input = ref(null);
   const inputTextValue = ref('');
 
@@ -29,9 +29,9 @@
   const showDropdown = ref(false);
 
   watch(
-    () => model,
-    (model) => {
-      const value = model.value;
+    () => props.value,
+    (valueId) => {
+      const value = valueId;
       if (value) {
         if (typeof value === 'string') {
           const foundItem = props.values.find(

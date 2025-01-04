@@ -60,11 +60,13 @@
     // Function to generate random data for each object
     function generateRandomData(id) {
       const role = generateRandomRole();
+
       return new ViewUser(
         id,
         generateRandomEmail(),
-        'FirstName' + id,
-        'LastName' + id,
+        `FirstName${id}`,
+        `LastName${id}`,
+        `FirstName${id} LastName${id}`,
         generateRandomPhoneNumber(),
         generateRandomDate(),
         '',
@@ -250,7 +252,7 @@
     <div class="flex flex-1">
       <div
         class="hidden w-20 flex-shrink-0 flex-grow-0 flex-col items-center justify-center lg:flex"
-        :class="{ '!w-56 ': guiStore.showFullLefNavBar }"
+        :class="{ '!w-56': guiStore.showFullLefNavBar }"
       >
         <left-nav />
       </div>
