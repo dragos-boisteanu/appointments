@@ -80,9 +80,10 @@
   };
 
   const showCreateAppointmentDialog = ref(false);
-  const toggleCreateAppointmentDialog = () =>
-    (showCreateAppointmentDialog.value =
-      !showCreateAppointmentDialog.value);
+  const toggleCreateAppointmentDialog = () => {
+    showCreateAppointmentDialog.value =
+      !showCreateAppointmentDialog.value;
+  };
 
   const handleCreateAppointment = (appointment) => {
     appointmentsService.add(appointment);

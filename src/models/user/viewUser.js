@@ -4,6 +4,7 @@ export default class ViewUser {
   details = null;
   firstName = '';
   lastName = '';
+  fullName = '';
   phoneNumber = '';
   birthDate = '';
   description = '';
@@ -20,6 +21,7 @@ export default class ViewUser {
     email = '',
     firstName = '',
     lastName = '',
+    fullName = '',
     phoneNumber = '',
     birthDate = '',
     description = '',
@@ -35,6 +37,7 @@ export default class ViewUser {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.birthDate = birthDate;
     this.description = description;

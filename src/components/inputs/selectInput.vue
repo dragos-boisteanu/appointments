@@ -53,13 +53,14 @@
     >
     <div
       :id="props.id"
-      class="relative flex h-10 w-full cursor-pointer items-center gap-x-2 rounded border-2 border-gray-200 px-2 focus-within:border-sky-700 focus-within:shadow-sm focus-within:shadow-sky-100"
+      class="relative flex h-10 w-full cursor-pointer items-center gap-x-2 rounded border-2 border-gray-200 px-2 focus-within:border-sky-700 focus-within:shadow-sm focus-within:shadow-sky-100 "
       :class="{
         'border-red-500 focus-within:border-red-500 focus-within:shadow-sm focus-within:shadow-red-100':
           props.error,
         'border-green-600 focus-within:border-green-600 focus-within:shadow-sm focus-within:shadow-green-100':
           props.valid,
         'hover:border-sky-600': !props.disabled,
+        'pointer-events-none bg-neutral-100': props.disabled,
       }"
     >
       <div
@@ -76,7 +77,7 @@
       >
         <div
           class="w-full p-2 hover:cursor-pointer hover:bg-gray-50"
-          :class="{ 'bg-gray-50': checkSelected(item) }"
+          :class="{ 'bg-gray-50': checkSelected(item), 'text-neutral-200': props.disabled }"
           v-for="(item, index) in props.items"
           :key="index"
           @click="select(item)"

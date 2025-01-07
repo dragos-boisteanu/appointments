@@ -4,6 +4,7 @@
 
   const props = defineProps({
     values: { type: Array, required: true },
+    value: { type: String, required: false, default: '' },
 
     keyField: { type: String, required: true },
     nameField: { type: String, required: true },
@@ -20,7 +21,6 @@
   });
   const emit = defineEmits(['select']);
 
-  const model = defineModel();
   const input = ref(null);
   const inputTextValue = ref('');
 
@@ -29,9 +29,9 @@
   const showDropdown = ref(false);
 
   watch(
-    () => model,
-    (model) => {
-      const value = model.value;
+    () => props.value,
+    (valueId) => {
+      const value = valueId;
       if (value) {
         if (typeof value === 'string') {
           const foundItem = props.values.find(
@@ -85,8 +85,15 @@
     if (inputElement.value.trim() === '') {
       foundValues.value = props.values;
     } else {
+      const lowerCaseInput = inputElement.value
+        .toLowerCase()
+        .replace(/\s/g, '');
+
       foundValues.value = props.values.filter((value) =>
-        value[props.nameField].includes(inputElement.value),
+        value[props.nameField]
+          .toLowerCase()
+          .replace(/\s/g, '')
+          .includes(lowerCaseInput),
       );
     }
   };
