@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { inject, ref } from 'vue';
+  import { computed, inject, ref } from 'vue';
   // import appointment from '../../components/appointments/appointmentComponent.vue';
   import EditAppointmentDialog from '@/components/appointments/dialogs/editAppointmentDialog.vue';
   import ConfirmDialog from '@/components/dialogs/confirmDialog.vue';
@@ -36,12 +36,20 @@
     },
     {
       id: 4,
-      date: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      date: new Date(
+        new Date().getTime() + 2 * (24 * 60 * 60 * 1000),
+      ),
       title: 'Tomorrow all day event',
       allDay: true,
       color: '#35682D',
     },
   ]);
+
+  const appointmentsSortedList = computed(() => {
+    return [...appointmentsStore.list].sort(
+      (a, b) => a.date.getTime() - b.date.getTime(),
+    );
+  });
   const selectedAppointment = ref(null);
 
   const editAppointment = (appointment) => {
@@ -125,7 +133,7 @@
         style="flex: 1 0 0"
       >
         <EventsCalendar
-          :events="appointmentsStore.list"
+          :events="appointmentsSortedList"
           v-slot="{ event }"
         >
           <appointment-component
